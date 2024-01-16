@@ -10,10 +10,7 @@
  * }
  */
 
-interface ListNode {
-  val: number;
-  next: ListNode | null;
-}
+import { ListNode } from '../../interfaces/interfaces';
 
 function hasCycle(head: ListNode | null): boolean {
   if (!head) {
