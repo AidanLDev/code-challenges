@@ -1,50 +1,34 @@
-import { ListNode } from '../../interfaces/interfaces';
+interface ListNode {
+  val: number | null;
+  next: ListNode | null;
+}
 
 function addTwoNumbers(
   l1: ListNode | null,
   l2: ListNode | null
 ): ListNode | null {
-  /*
-      Traverse both linked lists and store their values in two arrays
-      Reverse the arrays and sum the digits in the arrays
-      Create a new linkedList with the sum array reversed (or go through the sum array back to front)
-  */
+  let dummyHead: ListNode = { val: 0, next: null };
+  let p = l1,
+    q = l2,
+    curr = dummyHead;
+  let carry = 0;
+  while (p != null || q != null) {
+    let x = p != null ? p.val : 0;
+    let y = q != null ? q.val : 0;
+    let sum = 0;
 
-  let listOneArray = [];
-  let listTwoArray = [];
+    if (x !== null && y !== null) {
+      sum = carry + x + y;
+    }
 
-  let cur = l1;
-  while (cur) {
-    listOneArray.push(cur.val);
-    cur = cur.next;
+    carry = Math.floor(sum / 10);
+    curr.next = { val: sum % 10, next: null };
+    curr = curr.next;
+    if (p != null) p = p.next;
+    if (q != null) q = q.next;
   }
-
-  cur = l2;
-  while (cur) {
-    listTwoArray.push(cur.val);
-    cur = cur.next;
+  if (carry > 0) {
+    curr.next = { val: carry, next: null };
   }
-
-  let num1 = Number(listOneArray.reverse().join(''));
-  let num2 = Number(listTwoArray.reverse().join(''));
-  let sum = num1 + num2;
-
-  console.log(num1);
-  console.log(num2);
-  console.log(sum);
-
-  let sumArray = Array.from(sum.toString(), Number).reverse();
-
-  console.log(sumArray);
-
-  let sumList: ListNode = { val: null, next: null };
-
-  for (let i = 0; i < sumArray.length; i++) {
-    console.log('Adding: ', sumArray[i], ' to the list:');
-    console.log(sumList);
-    sumList.val = sumArray[i];
-    sumList = sumList.next; // to the next part of sumList
-  }
-
-  return sumList;
+  return dummyHead.next;
 }
