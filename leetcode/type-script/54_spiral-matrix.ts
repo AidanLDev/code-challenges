@@ -1,20 +1,39 @@
 function spiralOrder(matrix: number[][]): number[] {
-  /*
-      Keep track of the rowIdx and colIdx
-          (to go right matrix[rowIdx][iterateMe++])
-          (to go down matrix[iterateMe--][colIdx])
-          (to go left matrix[rowIdx][iterateme--])
-          (to go up matrix[iterateMe++][colIdx])
-      
-      Iterate right until we reach the end of the row - for i = 0; i < matrix[rowIdx].length; i++
-  
-      go down until we reach the end - for i = 0; i < matrix.length; i++
-      
-      go to the left until we reach the end - for i = 0; i < matrix[rowIdx].length; i++
-      
-      go up until we're at idx 1. while rowIdx !== 1 rowIdx --
-      
-      go right until we're at the second last idx while rowIdx !== matrix[rowIdx].length - 1
-      
-  */
+  let result: number[] = [];
+  let rowBegin = 0;
+  let rowEnd = matrix.length - 1;
+  let colBegin = 0;
+  let colEnd = matrix[0].length - 1;
+
+  while (rowBegin <= rowEnd && colBegin <= colEnd) {
+    // Traverse Right
+    for (let j = colBegin; j <= colEnd; j++) {
+      result.push(matrix[rowBegin][j]);
+    }
+    rowBegin++;
+
+    // Traverse Down
+    for (let j = rowBegin; j <= rowEnd; j++) {
+      result.push(matrix[j][colEnd]);
+    }
+    colEnd--;
+
+    if (rowBegin <= rowEnd) {
+      // Traverse Left
+      for (let j = colEnd; j >= colBegin; j--) {
+        result.push(matrix[rowEnd][j]);
+      }
+    }
+    rowEnd--;
+
+    if (colBegin <= colEnd) {
+      // Traverse Up
+      for (let j = rowEnd; j >= rowBegin; j--) {
+        result.push(matrix[j][colBegin]);
+      }
+    }
+    colBegin++;
+  }
+
+  return result;
 }
