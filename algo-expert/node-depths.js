@@ -32,3 +32,13 @@ class BinaryTree {
 
 // Do not edit the line below.
 exports.nodeDepths = nodeDepths;
+
+/*
+ The recursive algo
+function nodeDepths(root, depth = 0) {
+  if (!root) {
+    return 0
+  }
+  return depth + nodeDepths(root.left, depth + 1) + nodeDepths(root.right, depth + 1)
+}
+*/
