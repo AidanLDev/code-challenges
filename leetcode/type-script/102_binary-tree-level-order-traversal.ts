@@ -15,7 +15,7 @@ function levelOrder(root: TreeNode | null): number[][] {
     for (let i = 0; i < queueLength; i++) {
       let node = queue.shift();
 
-      if (node !== null) {
+      if (node) {
         level.push(node.val);
 
         if (node.left !== null) {
