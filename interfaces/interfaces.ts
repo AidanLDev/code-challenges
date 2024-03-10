@@ -8,3 +8,8 @@ export interface TreeNode {
   left: TreeNode;
   right: TreeNode;
 }
+
+export interface NArrayTreeNode {
+  val: number;
+  children: NArrayTreeNode[];
+}
