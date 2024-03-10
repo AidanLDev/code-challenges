@@ -12,29 +12,34 @@
 
 import { NArrayTreeNode } from '../../interfaces/interfaces';
 
-let queue: NArrayTreeNode[] = [];
-
-function walk(treeNode: NArrayTreeNode, result: number[][]):number[][] {
-  if (queue.length === 0) {
-    return [[]]
-  }
-
-  /*
-    For each node we're on, push it's children into a queue
-  */
- result.push(treeNode.val);
- queue.push(treeNode.children)
-}
-
 function levelOrder(root: NArrayTreeNode | null): number[][] {
-  if (!root) {
-    return [[]]
+  if (root === null) {
+    return [];
   }
 
-  let result: number[][] = []
-  result.push([root.val]);
-  queue.push(root);
+  const result: number[][] = [];
+  let queue: (NArrayTreeNode | null)[] = [root];
 
-  return walk(root, result)
+  while (queue.length > 0) {
+    let queueLength = queue.length;
+    let level: number[] = [];
 
+    for (let i = 0; i < queueLength; i++) {
+      let node = queue.shift();
+      if (node) {
+        level.push(node.val);
+        if (node?.children) {
+          for (let i = 0; i < node?.children.length; i++) {
+            // Push every child from the current node into the queue
+            queue.push(node.children[i]);
+          }
+        }
+      }
+    }
+    if (level.length > 0) {
+      result.push(level);
+    }
+  }
+
+  return result;
 }
