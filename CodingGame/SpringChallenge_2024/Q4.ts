@@ -7,6 +7,17 @@
 
   The image will be provided as a list of nRows strings with length nCols each, representing the rows of pixels from top to bottom. Each pixel is a single alphanumeric character representing its color.
 
+[
+  'xxCCCCCxxxxx',
+  'xCxxxxCxxxx',
+  'xCxxxxCxxxx',
+  'xCxxxxxCxxxx',
+  'xCxxxxxCxxxx',
+  'xCxxxxxCxxxx',
+  'xxCCCCCxxxxx',
+  'xxxxxxxxxxxx'
+]
+
   Your code needs to return a list containing exactly 3 integer values [r, c, R] representing the largest circle found within the image:
 
   - r is the verticle coordinate of the circle's center.
@@ -69,3 +80,4 @@ function isCircle(
   // A circle exists if all pixels on the circle have the same color
 }
 /* Ignore and do not change the code above */
+
