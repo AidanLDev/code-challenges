@@ -6,6 +6,18 @@ The steps needed for selection sort are as follows:
 - Once we've finished our iteration, swap the first index with the value at currentLeast
 - Once we complete an iteration, we start the next iteration one index further up the array as the first index is already sorted
 - We repeat these steps until all the data is sorted
+
+### Runtime
+Selection sort contains two types of steps, comparisons and swaps. We compare each element with the lowest number we've encountered and we swap the lowest number into its correct position. If we had an array of 4 elements:
+
+*number of comparisons*
+`4 + 3 + 2 + 1 = 10`
+To put that more generally we have:
+`(N - 1) + (N - 2) + (N - 3) ... + 1` comparisons
+
+As for swaps, we only have to make at most 1 swap per passthrough, compared to [[Bubble Sort]] which at worst, we'd have to make a swap at every comparison.
+
+This means that Selection Sort is twice as fast as Bubble Sort, however in the world of Big O Selection Sort is still described as `N(N^2)`. In Reality the run time is `N(N^2 / 2)`, however Big O ignores constants.
 */
 
 function SelectionSort(numbersArr) {
