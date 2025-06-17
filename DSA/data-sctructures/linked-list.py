@@ -37,3 +37,27 @@ def delete(head, value):
   # Value not found, return original head
   return head
 
+def insert(head, value, index):
+  new_node = Node(value)
+  if index == 1:
+    new_node.next = head
+    return new_node
+  
+  current_node = head
+  for _ in range(index - 2):
+    if current_node == None:
+      break
+    current_node = current_node.next
+    
+  new_node.next = current_node.next
+  current_node.next = new_node
+  return head
+
+node1 = delete(node1, 2)
+print("List after deleting 2")
+traverse(node1)
+
+node1 = insert(node1, 32, 3)
+print("List after adding 32 at index 3")
+traverse(node1)
+
