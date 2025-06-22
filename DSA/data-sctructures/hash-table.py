@@ -9,18 +9,18 @@ def hash_function(value):
 
 def contains(name):
   index = hash_function(name)
-  for item in my_hash_set[index]:
-    if item == name:
-      return True
-    return False  
+  bucket = my_hash_set[index]
+  return name in bucket 
 
-
-names = ["Aidan", "Siri", "Jones", "Stuart", "Bob"]
-for name in names:
+def add(name):
   if my_hash_set[hash_function(name)][0] != None:
     my_hash_set[hash_function(name)].append(name) 
   else:
     my_hash_set[hash_function(name)][0] = name
+
+names = ["Aidan", "Siri", "Jones", "Stuart", "Bob"]
+for name in names:
+  add(name)
 
 print(my_hash_set);
 print("does it have Siri in?: ", contains("Siri"))
