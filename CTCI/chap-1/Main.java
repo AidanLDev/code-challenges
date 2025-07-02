@@ -44,8 +44,35 @@ public class Main {
     System.out.println("Reversing word: " + word3 + " " + reverseString(word3));
   }
 
+  // 1.3
+  static String removeDupesInPlace(String word) {
+    for (int i = 0; i < word.length(); i++) {
+      int firstIndex = word.indexOf(word.charAt(i));
+      int lastIndex = word.lastIndexOf(word.charAt(i));
+      while (firstIndex != lastIndex) {
+        StringBuilder sb = new StringBuilder(word);
+        sb.deleteCharAt(lastIndex);
+        word = sb.toString();
+        lastIndex = word.lastIndexOf(word.charAt(i));
+      }
+    }
+    return word;
+  }
+
+  static void testRemoveDupesInPlace() {
+    String word1 = "aaron";
+    String word2 = "bob";
+    String word3 = "Lotsssss";
+    System.out.println("About to test: " + word1 + " res: " +
+        removeDupesInPlace(word1));
+    System.out.println("About to test: " + word2 + " res: " +
+        removeDupesInPlace(word2));
+    System.out.println("About to test: " + word3 + " res: " +
+        removeDupesInPlace(word3));
+  }
+
   public static void main(String[] args) {
-    testReverseString();
+    testRemoveDupesInPlace();
   }
 
 }
