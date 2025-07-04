@@ -104,12 +104,43 @@ public class Main {
   }
 
   // 1.5 Write a method to replace all spaces in a string with '%20'
+  static String replaceSpaces(String sentenceToUpdate) {
+    return sentenceToUpdate.replaceAll(" ", "%20");
+  }
 
   // 1.5 tests
+  static void testReplaceSpaces(String sentenceToUpdate) {
+    System.out.println("Will replace this sentance: ");
+    System.out.println(sentenceToUpdate);
+    System.out.println("Result: ");
+    System.out.println(replaceSpaces(sentenceToUpdate));
+  }
 
   // 1.6 Given an image represented by an NxN matrix, where each pixel in the
   // image is 4 bytes, write a method to rotate the image by 90 degrees. Can you
   // do this in place?
+  static String[][] RotateImage(String image[][]) {
+    /*
+     * [
+     * [1, 2, 3],
+     * [4, 5, 6],
+     * [7, 8, 9]
+     * ]
+     * 
+     */
+
+    // Final result would look like
+    /*
+     * [
+     * [7, 4, 1] // Left column becomes the top row
+     * [8, 5, 2] // middle column becomes the second row
+     * [9, 6, 3] // right column becomes the bottom row
+     * ]
+     */
+    for (int i = 0; i < image.length; i++) {
+      String[] row = image[i];
+    }
+  }
 
   // 1.6 tests
 
@@ -125,7 +156,7 @@ public class Main {
   // 1.8 tests
 
   public static void main(String[] args) {
-    testIsAnagram();
+    testReplaceSpaces("Hello World isn't this a nice string ey");
   }
 
 }
