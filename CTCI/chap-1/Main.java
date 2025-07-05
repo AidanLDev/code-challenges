@@ -119,30 +119,7 @@ public class Main {
   // 1.6 Given an image represented by an NxN matrix, where each pixel in the
   // image is 4 bytes, write a method to rotate the image by 90 degrees. Can you
   // do this in place?
-  static String[][] RotateImage(String image[][]) {
-    /*
-     * [
-     * [1, 2, 3],
-     * [4, 5, 6],
-     * [7, 8, 9]
-     * ]
-     * 
-     */
-
-    // Final result would look like
-    /*
-     * [
-     * [7, 4, 1] // Left column becomes the top row
-     * [8, 5, 2] // middle column becomes the second row
-     * [9, 6, 3] // right column becomes the bottom row
-     * ]
-     */
-    for (int i = 0; i < image.length; i++) {
-      String[] row = image[i];
-    }
-  }
-
-  // 1.6 tests
+  
 
   // 1.7 If an element in MxN matrix is 0, the entire row and column is set to 0
 
