@@ -22,4 +22,9 @@ function siev(n) {
     .filter((x) => x !== null);
 }
 
-console.log(siev(500));
+const isPrime = (n) => {
+  const primeNumbers = siev(n);
+  return primeNumbers.includes(n);
+};
+
+console.log(`Is ${5} prime? ${isPrime(5)}`);
