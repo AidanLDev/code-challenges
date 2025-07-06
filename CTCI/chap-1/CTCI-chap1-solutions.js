@@ -51,8 +51,6 @@ function zeroMatrix(matrix) {
       }
     }
   }
-  console.log("zeroRows: ", zeroRows);
-  console.log("zeroCols: ", zeroCols);
 
   // Second pass: zero out the marked rows
   for (let row of zeroRows) {
@@ -72,7 +70,6 @@ function zeroMatrix(matrix) {
 }
 
 // Test the zeroMatrix function
-console.log("Testing zeroMatrix function:");
 
 // Test case 1: 3x3 matrix
 const matrix1 = [
@@ -80,9 +77,7 @@ const matrix1 = [
   [4, 0, 6],
   [7, 8, 9],
 ];
-console.log("Original 3x3 matrix:", matrix1);
 zeroMatrix(matrix1);
-console.log("After zeroMatrix:", matrix1);
 
 // Test case 2: 4x3 matrix (MxN where M ≠ N)
 const matrix2 = [
@@ -91,15 +86,31 @@ const matrix2 = [
   [7, 0, 9],
   [10, 11, 12],
 ];
-console.log("\nOriginal 4x3 matrix:", matrix2);
-zeroMatrix(matrix2);
-console.log("After zeroMatrix:", matrix2);
+// zeroMatrix(matrix2);
 
 // Test case 3: 2x4 matrix with multiple zeros
 const matrix3 = [
   [1, 0, 3, 4],
   [5, 6, 0, 8],
 ];
-console.log("\nOriginal 2x4 matrix:", matrix3);
-zeroMatrix(matrix3);
-console.log("After zeroMatrix:", matrix3);
+// zeroMatrix(matrix3);
+
+// 1.8 Assume you have a method isSubstring which checks if one word is a
+// substring of another. Given two strings, s1 and s2, write code to check if s2
+// is a rotation of s1 using only one call to isSubstring (i.e. "waterbottle",
+// "erbottlewat")
+
+function isRotation(word1, word2) {
+  const concattedString = word1 + word1;
+  return concattedString.includes(word2);
+}
+
+const rotationWord1 = "waterbottle";
+const rotationWord2 = "erbottlewat";
+
+console.log(
+  `Is ${rotationWord1} a rotation of ${rotationWord2}: ${isRotation(
+    rotationWord1,
+    rotationWord2
+  )}`
+);

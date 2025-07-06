@@ -120,9 +120,7 @@ public class Main {
   // image is 4 bytes, write a method to rotate the image by 90 degrees. Can you
   // do this in place? -> go to the javascript file for the solution
 
-  // 1.7 If an element in MxN matrix is 0, the entire row and column is set to 0
-
-  // 1.7 tests
+  // 1.7 If an element in MxN matrix is 0, the entire row and column is set to 0 --> see js file
 
   // 1.8 Assume you have a method isSubstring which checks if one word is a
   // substring of another. Given two strings, s1 and s2, write code to check if s2
