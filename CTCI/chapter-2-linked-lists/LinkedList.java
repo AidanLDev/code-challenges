@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class LinkedList {
-  class Node {
+  public static class Node {
     int data;
     Node next = null;
 
@@ -130,6 +130,44 @@ public class LinkedList {
   // numbers and returns the sum as a linked list
   // 2.4 Example - input (3->1->5)+(5->9->2)
   // Result - 8->0->8
+  public static Node sumLists(Node list1, Node list2) {
+    ArrayList<Integer> numList1 = new ArrayList<>();
+    ArrayList<Integer> numList2 = new ArrayList<>();
+
+    Node cur = list1;
+    while (cur.next != null) {
+      numList1.add(0, cur.data);
+      cur = cur.next;
+    }
+
+    cur = list2;
+    while (cur.next != null) {
+      numList2.add(0, cur.data);
+      cur = cur.next;
+    }
+
+    int num1 = 0;
+    int num2 = 0;
+    for (int digit : numList1) {
+      num1 = num1 * 10 + digit;
+    }
+
+    for (int digit : numList2) {
+      num2 = num2 * 10 + digit;
+    }
+
+    int sum = num1 + num2;
+    ArrayList<Integer> sumList = new ArrayList<>();
+    while (sum > 0) {
+      sumList.add(0, sum % 10);
+      sum /= 10;
+    }
+    Node resultList = new Node(sumList.get(0));
+    for (int i = 1; i < sumList.size(); i++) {
+      resultList.appendToTail(sumList.get(i));
+    }
+    return resultList;
+  }
 
   // 2.5 Given a circular linked list, implement an algorithm which returns node
   // at the beginning of the loop
@@ -137,9 +175,8 @@ public class LinkedList {
   // 2.5 Result - c
 
   public static void main(String[] args) {
-    LinkedList list = new LinkedList();
-    Node list1 = list.new Node(3);
-    Node list2 = list.new Node(5);
+    Node list1 = new Node(3);
+    Node list2 = new Node(5);
 
     list1.appendToTail((1));
     list1.appendToTail((5));
@@ -149,6 +186,9 @@ public class LinkedList {
 
     list1.printList();
     list2.printList();
+    System.out.println("Summing these lists and returning the result.... as a list!");
+    Node sumList = sumLists(list1, list2);
+    sumList.printList();
   }
 
 }
