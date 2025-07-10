@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class LinkedList {
   class Node {
     int data;
@@ -34,7 +36,7 @@ public class LinkedList {
 
     void printList() {
       Node n = this;
-      while (n.next != null) {
+      while (n != null) {
         System.out.println(n.data + " ");
         n = n.next;
       }
@@ -51,9 +53,39 @@ public class LinkedList {
   }
 
   // 2.1 write code to remove duplicates from an unsorted list
+  public static void removeDuplicates(Node head) {
+    ArrayList<Integer> seenNumbers = new ArrayList<>();
+    Node cur = head;
+    seenNumbers.add(cur.data);
+    while (cur.next != null) {
+      if (seenNumbers.contains(cur.next.data)) {
+        cur.next = cur.next.next; // If next has already been found, set cur's next to next.next to skip over
+        // next, breaking it from the link
+      } else {
+        seenNumbers.add(cur.next.data);
+        cur = cur.next;
+      }
+    }
+  }
+
   // 2.1.1 (follow up) how would you solve this problem if a temporary buffer is
   // not allowed?
-
+  public static void removeDuplicatesNoBuffer(Node head) {
+    Node cur = head;
+    while (cur.next != null) {
+      int curValue = cur.data;
+      Node runner = cur;
+      while (runner.next != null) {
+        if (runner.next.data == curValue) {
+          // break next link
+          runner.next = runner.next.next;
+        } else {
+          runner = runner.next;
+        }
+      }
+      cur = cur.next;
+    }
+  }
   // 2.2 Implement an algorithm to find the nth to last element of a singly linked
   // list
 
@@ -78,6 +110,14 @@ public class LinkedList {
     LinkedList list = new LinkedList();
     Node head = list.new Node(1);
     addDataToList(head);
+    head.appendToTail(2);
+    head.appendToTail(3);
+    head.appendToTail(3);
+    head.printList();
+    System.out.println("Going to run remove duplicates now!");
+    removeDuplicatesNoBuffer(head);
+    System.out.println("Removed dupes hopefully: ");
+    head.printList();
   }
 
 }
