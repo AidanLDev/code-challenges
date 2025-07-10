@@ -47,9 +47,19 @@ public class LinkedList {
     head.appendToTail(2);
     head.appendToTail(3);
     head.appendToTail(4);
+    head.appendToTail(5);
 
     System.out.println("OriginalList: ");
     head.printList();
+  }
+
+  public static int getListSize(Node head) {
+    int listSize = 1;
+    while (head.next != null) {
+      listSize += 1;
+      head = head.next;
+    }
+    return listSize;
   }
 
   // 2.1 write code to remove duplicates from an unsorted list
@@ -91,12 +101,7 @@ public class LinkedList {
   // list
   public static int findNthLastElement(Node head, int nthEl) {
     Node cur = head;
-    int listSize = 1;
-    while (cur.next != null) {
-      listSize += 1;
-      cur = cur.next;
-    }
-    cur = head;
+    int listSize = getListSize(head);
     int elementToFindIndex = listSize - nthEl;
     for (int i = 1; i <= elementToFindIndex; i++) {
       cur = cur.next;
@@ -108,6 +113,16 @@ public class LinkedList {
   // list, given only access to that node
   // 2.3 Example - Input the node 'c' from the linked list a->b->c->d->e
   // 2.3 Result - Nothing returned but new linked list looks like a->b->d->e
+  public static void deleteMiddleElement(Node head) {
+    int middleIndex = getListSize(head) / 2;
+    int curIndex = 1;
+    Node cur = head;
+    while (curIndex < middleIndex) {
+      cur = cur.next;
+      curIndex += 1;
+    }
+    cur.next = cur.next.next;
+  }
 
   // 2.4 You have two numbers represented by a linked list where each node
   // contains a single digit. The digits are sorted in reverse order, such that
@@ -123,11 +138,17 @@ public class LinkedList {
 
   public static void main(String[] args) {
     LinkedList list = new LinkedList();
-    Node head = list.new Node(1);
-    addDataToList(head);
-    int secondLastElement = findNthLastElement(head, 2);
-    System.out.println("Found this element 2 from the end: " + secondLastElement);
-    head.printList();
+    Node list1 = list.new Node(3);
+    Node list2 = list.new Node(5);
+
+    list1.appendToTail((1));
+    list1.appendToTail((5));
+
+    list2.appendToTail((9));
+    list2.appendToTail((2));
+
+    list1.printList();
+    list2.printList();
   }
 
 }
