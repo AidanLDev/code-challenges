@@ -86,8 +86,23 @@ public class LinkedList {
       cur = cur.next;
     }
   }
+
   // 2.2 Implement an algorithm to find the nth to last element of a singly linked
   // list
+  public static int findNthLastElement(Node head, int nthEl) {
+    Node cur = head;
+    int listSize = 1;
+    while (cur.next != null) {
+      listSize += 1;
+      cur = cur.next;
+    }
+    cur = head;
+    int elementToFindIndex = listSize - nthEl;
+    for (int i = 1; i <= elementToFindIndex; i++) {
+      cur = cur.next;
+    }
+    return cur.data;
+  }
 
   // 2.3 Implement an algorithm to delete a node in the middle of a single linked
   // list, given only access to that node
@@ -110,13 +125,8 @@ public class LinkedList {
     LinkedList list = new LinkedList();
     Node head = list.new Node(1);
     addDataToList(head);
-    head.appendToTail(2);
-    head.appendToTail(3);
-    head.appendToTail(3);
-    head.printList();
-    System.out.println("Going to run remove duplicates now!");
-    removeDuplicatesNoBuffer(head);
-    System.out.println("Removed dupes hopefully: ");
+    int secondLastElement = findNthLastElement(head, 2);
+    System.out.println("Found this element 2 from the end: " + secondLastElement);
     head.printList();
   }
 
