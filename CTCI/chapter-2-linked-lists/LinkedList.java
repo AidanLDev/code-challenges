@@ -36,9 +36,11 @@ public class LinkedList {
 
     void printList() {
       Node n = this;
-      while (n != null) {
+      int limit = 100;
+      while (n != null && limit > 0) {
         System.out.println(n.data + " ");
         n = n.next;
+        limit -= 1;
       }
     }
   }
@@ -169,26 +171,36 @@ public class LinkedList {
     return resultList;
   }
 
+  public static void buildCircularList(Node head) {
+    Node cur = head;
+    while (cur.next != null) {
+      cur = cur.next;
+    }
+    cur.next = head;
+  }
+
   // 2.5 Given a circular linked list, implement an algorithm which returns node
   // at the beginning of the loop
   // 2.5 Example - a->b->c->d->e->c(same c as earlier)
   // 2.5 Result - c
+  public static Node returnCircularNode(Node head) {
+    Node cur = head;
+    if (cur.next == null) {
+      return head;
+    }
+    cur = cur.next;
+    while (cur != head) {
+      cur = cur.next;
+    }
+    return cur;
+  }
 
   public static void main(String[] args) {
-    Node list1 = new Node(3);
-    Node list2 = new Node(5);
-
-    list1.appendToTail((1));
-    list1.appendToTail((5));
-
-    list2.appendToTail((9));
-    list2.appendToTail((2));
-
-    list1.printList();
-    list2.printList();
-    System.out.println("Summing these lists and returning the result.... as a list!");
-    Node sumList = sumLists(list1, list2);
-    sumList.printList();
+    Node list = new Node(3);
+    addDataToList(list);
+    buildCircularList(list);
+    Node resetNode = returnCircularNode(list);
+    System.out.println("Found this node: " + resetNode.data);
   }
 
 }
