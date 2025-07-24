@@ -1,14 +1,14 @@
 function isValid(s: string): boolean {
   const openBraces = {
-    '{': '}',
-    '(': ')',
-    '[': ']',
+    "{": "}",
+    "(": ")",
+    "[": "]",
   };
 
   const closingBraces = {
-    '}': '{',
-    ')': '(',
-    ']': '[',
+    "}": "{",
+    ")": "(",
+    "]": "[",
   };
 
   let stack: string[] = [];
@@ -34,3 +34,29 @@ function isValid(s: string): boolean {
   }
   return stack.length === 0;
 }
+
+export function isValid2025(s: string): boolean {
+  const parenStack: string[] = [];
+  const openBrackets = ["(", "{", "["];
+  const bracketRefTable = {
+    "}": "{",
+    ")": "(",
+    "]": "[",
+  };
+  for (const char of s) {
+    if (openBrackets.includes(char)) {
+      parenStack.push(char);
+    } else {
+      // Must be a closing bracket
+      if (parenStack.length === 0) {
+        return false;
+      }
+      const topOfStack = parenStack.pop();
+      if (topOfStack !== bracketRefTable[char]) {
+        return false;
+      }
+    }
+  }
+  return parenStack.length === 0;
+}
+
