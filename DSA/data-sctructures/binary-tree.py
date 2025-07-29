@@ -57,6 +57,47 @@ def searchBst(node, target):
     return searchBst(node.left, target)
   else:
     return searchBst(node.right, target)
+  
+def insertBst(node, data):
+    if node is None:
+        return TreeNode(data)
+    else:
+        if data < node.data:
+            node.left = insertBst(node.left, data)
+        elif data > node.data:
+            node.right = insertBst(node.right, data)
+    return node
+
+def findLowestValueInBst(node):
+  current_node = node
+  while current_node.left is not None:
+    current_node = current_node.left
+  return current_node.data
+
+def delete(node, data):
+    if not node:
+        return None
+
+    if data < node.data:
+        node.left = delete(node.left, data)
+    elif data > node.data:
+        node.right = delete(node.right, data)
+    else:
+        # Node with only one child or no child
+        if not node.left:
+            temp = node.right
+            node = None
+            return temp
+        elif not node.right:
+            temp = node.left
+            node = None
+            return temp
+
+        # Node with two children, get the in-order successor
+        node.data = findLowestValueInBst(node.right)
+        node.right = delete(node.right, node.data)
+
+    return node
 
 """
 print("Pre-order traversal results")
@@ -98,5 +139,4 @@ print("BST inOrderTraversal")
 postOrderTraversal(bstRoot)
 print("BST postOrderTraversal")
 
-print("Going to search for: " + str(8) + " in our BST")
-searchBst(bstRoot, 8)
+print("Lowest value is: " + str(findLowestValueInBst(bstRoot)))

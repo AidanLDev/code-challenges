@@ -77,6 +77,8 @@ We can use BSTs to find values quickly, as it's sorted. Each search we can disga
 
 Here is how we can implement searching for a value in a BST using Python:
 
+#### Traversing a BST
+
 ```python
 def searchBst(node, target):
   if node is None:
@@ -90,3 +92,103 @@ def searchBst(node, target):
 ```
 
 The time complexity for searching a BST is O(H), where H is the height of the tree.
+
+#### Inserting into a BST
+
+Inserting is similar to searching a BST,
+
+1. Start at the root node
+2. Compare the node with the value we want to insert
+
+- Is the value lower than the cur node? Go left
+- Is the value higher than the cur node? Go right
+
+3. Continue until there is no right or left, then insert the new node
+
+Here is an example:
+
+```python
+def insert(node, data):
+    if node is None:
+        return TreeNode(data)
+    else:
+        if data < node.data:
+            node.left = insert(node.left, data)
+        elif data > node.data:
+            node.right = insert(node.right, data)
+    return node
+```
+
+#### Finding the lowest value in a bst
+
+Here's a little function to find the lowest value in a bst:
+
+```python
+def findLowestValueInBst(node):
+  current_node = node
+  while current_node.left is not None:
+    current_node = current_node.left
+  return current_node.data
+```
+
+#### Deleting a node in a bst
+
+First of all, we need to search the bst to find the node to delete. Then there are 3 different ways we need to handle deleting a node depending where it is:
+
+1. If leaf, remove it by removing the link
+2. If one child, connect the parent of the node we want to delete to the node we will delete's child
+3. If the node has both right and left child nodes: Find the node's in-order successor, change values with that node, then delete it.
+
+In step 3 above, the successor we find will always be a leaf node, and because it is the node that comes right after the node we want to delete, we can swap values with it and delete it.
+The in-order successor is the value that comes after it in an in-order search
+
+Here's how we can delete in Python:
+
+```python
+def delete(node, data):
+    if not node:
+        return None
+
+    if data < node.data:
+        node.left = delete(node.left, data)
+    elif data > node.data:
+        node.right = delete(node.right, data)
+    else:
+        # Node with only one child or no child
+        if not node.left:
+            temp = node.right
+            node = None
+            return temp
+        elif not node.right:
+            temp = node.left
+            node = None
+            return temp
+
+        # Node with two children, get the in-order successor
+        node.data = findLowestValueInBst(node.right)
+        node.right = delete(node.right, node.data)
+
+    return node
+```
+
+### AVL BSTs
+
+An AVL BST is a BST that automatically balances itself.
+To restore balance to AVL trees we use rotations. Left rotations when they're too heavy on the right side and right rotations when they're too heavy on the left side.
+
+The balance factor, each sub-trees height is stored in each node.
+Balance factor values
+
+- 0: The node is in balance.
+- more than 0: The node is "right heavy".
+- less than 0: The node is "left heavy".
+  If the balance factor is less than -1, or more than 1, for one or more nodes in the tree, the tree is considered not in balance, and a rotation operation is needed to restore balance.
+
+There are four different ways an AVL Tree can be out of balance, and each of these cases require a different rotation operation.
+
+LL - The unbalanced node and its left child node are both left-heavy. - A single right rotation will fix this
+RR - The unbalanced node and its right child node are both right-heavy. - A single left rotation will fix this
+LR - The unbalanced node is left heavy, and its left child node is right heavy. - First do a left rotation on the left child node, then do a right rotation on the unbalanced node.
+RL - The unbalanced node is right heavy, and its right child node is left heavy. - First do a right rotation on the right child node, then do a left rotation on the unbalanced node.
+
+
