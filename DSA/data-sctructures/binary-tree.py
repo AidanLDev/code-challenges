@@ -25,4 +25,33 @@ nodeB.right = nodeF
 nodeF.left = nodeG
 
 # Test
-print("root.right.left.data:", root.right.left.data)
+def preOrderTraversal(node):
+  if node is None:
+    return
+  print(node.data, end=", ")
+  preOrderTraversal(node.left)
+  preOrderTraversal(node.right)
+
+
+def inOrderTraversal(node):
+  if node is None:
+    return
+  inOrderTraversal(node.left)
+  print(node.data, end=", ")
+  inOrderTraversal(node.right)
+
+def postOrderTraversal(node):
+  if node is None:
+    return
+  postOrderTraversal(node.left)
+  postOrderTraversal(node.right)
+  print(node.data, end=", ")
+
+print("Pre-order traversal results")
+preOrderTraversal(root)
+
+print("In-order traversoal results")
+inOrderTraversal(root)
+
+postOrderTraversal(root)
+print("Post-order traversal results")
