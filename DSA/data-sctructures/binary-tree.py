@@ -47,6 +47,18 @@ def postOrderTraversal(node):
   postOrderTraversal(node.right)
   print(node.data, end=", ")
 
+def searchBst(node, target):
+  print("Current value is: " + str(node.data))
+  if node is None:
+    return None
+  elif node.data == target:
+    return node
+  elif target < node.data:
+    return searchBst(node.left, target)
+  else:
+    return searchBst(node.right, target)
+
+"""
 print("Pre-order traversal results")
 preOrderTraversal(root)
 
@@ -55,3 +67,36 @@ inOrderTraversal(root)
 
 postOrderTraversal(root)
 print("Post-order traversal results")
+"""
+
+bstRoot = TreeNode(13)
+bstNodeSeven = TreeNode(7)
+bstNodeThree = TreeNode(3)
+bstNodeEight = TreeNode(8)
+bstNodeFifteen = TreeNode(15)
+bstNodeFourteen = TreeNode(14)
+bstNodeNineteen = TreeNode(19)
+bstNodeEighteen = TreeNode(18)
+
+bstRoot.left = bstNodeSeven
+bstRoot.right = bstNodeFifteen
+
+bstNodeSeven.left = bstNodeThree
+bstNodeSeven.right = bstNodeEight
+
+bstNodeFifteen.left = bstNodeFourteen
+bstNodeFifteen.right = bstNodeNineteen
+
+bstNodeNineteen.left = bstNodeEighteen
+
+preOrderTraversal(bstRoot)
+print("BST preOrderTraversal")
+
+inOrderTraversal(bstRoot)
+print("BST inOrderTraversal")
+
+postOrderTraversal(bstRoot)
+print("BST postOrderTraversal")
+
+print("Going to search for: " + str(8) + " in our BST")
+searchBst(bstRoot, 8)

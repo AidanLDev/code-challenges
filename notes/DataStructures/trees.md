@@ -1,6 +1,6 @@
 # Trees
 
-### BST
+### Binary Trees
 
 #### Traversal
 
@@ -64,3 +64,29 @@ def postOrderTraversal(node):
   postOrderTraversal(node.right)
   print(node.data, end=", ")
 ```
+
+### Binary Search Trees (BST)
+
+Binary Search Trees are binary trees that conditionally store nodes depending on the node's value. The rules is. Children to the left of a Node must be smaller than the node's value. Children to the right of a Node must be larger than the Node's value
+
+To get the values in ascending order, we can run an in-order traversal of the BST.
+
+To find the replacement node we can run an in-order traversal and store the node that's one before the root node, so the next smallest one compared to the root.
+
+We can use BSTs to find values quickly, as it's sorted. Each search we can disgard half of the remaining tree.
+
+Here is how we can implement searching for a value in a BST using Python:
+
+```python
+def searchBst(node, target):
+  if node is None:
+    return None
+  elif node.data == target:
+    return node
+  elif target < node.data:
+    return searchBst(node.left, target)
+  else:
+    return searchBst(node.right, target)
+```
+
+The time complexity for searching a BST is O(H), where H is the height of the tree.
