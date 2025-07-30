@@ -13,3 +13,21 @@ export function majorityElement(nums: number[]): number {
 
   return foundNum;
 }
+
+export function majorityElementConstantTime(nums: number[]): number {
+  let candidate = 0;
+  let count = 0;
+
+  for (const num of nums) {
+    if (count === 0) {
+      candidate = num;
+      count = 1;
+    } else if (num === candidate) {
+      count++;
+    } else {
+      count--;
+    }
+  }
+
+  return candidate;
+}
