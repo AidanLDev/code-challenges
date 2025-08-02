@@ -1,6 +1,9 @@
 import { describe, it, expect } from "@jest/globals";
 
-import { SingleArrayThreeStacks } from "./CTCI_Chapter_3_Stacks_N_Queues";
+import {
+  SingleArrayThreeStacks,
+  TrackCurMin,
+} from "./CTCI_Chapter_3_Stacks_N_Queues";
 
 describe("CTCI 3.1 SingleArrayThreeStacks", () => {
   it("pushes and pops correctly for stack 1", () => {
@@ -58,5 +61,53 @@ describe("CTCI 3.1 SingleArrayThreeStacks", () => {
     expect(stacks.pop(4)).toBe(-1);
     expect(stacks.isEmpty(0)).toBe(-1);
     expect(stacks.isEmpty(4)).toBe(-1);
+  });
+});
+
+describe("CTCI 3.2 TrackCurMin", () => {
+  it("returns -1 for min on empty stack", () => {
+    const stack = new TrackCurMin();
+    expect(stack.min()).toBe(-1);
+  });
+
+  it("pushes and pops correctly, min tracks minimum", () => {
+    const stack = new TrackCurMin();
+    stack.push(5);
+    expect(stack.min()).toBe(5);
+    stack.push(3);
+    expect(stack.min()).toBe(3);
+    stack.push(7);
+    expect(stack.min()).toBe(3);
+    stack.push(2);
+    expect(stack.min()).toBe(2);
+    expect(stack.pop()).toBe(2);
+    expect(stack.min()).toBe(3);
+    expect(stack.pop()).toBe(7);
+    expect(stack.min()).toBe(3);
+    expect(stack.pop()).toBe(3);
+    expect(stack.min()).toBe(5);
+    expect(stack.pop()).toBe(5);
+    expect(stack.min()).toBe(-1);
+  });
+
+  it("handles duplicate minimums correctly", () => {
+    const stack = new TrackCurMin();
+    stack.push(4);
+    stack.push(2);
+    stack.push(2);
+    expect(stack.min()).toBe(2);
+    expect(stack.pop()).toBe(2);
+    expect(stack.min()).toBe(2);
+    expect(stack.pop()).toBe(2);
+    expect(stack.min()).toBe(4);
+  });
+
+  it("isEmpty works as expected", () => {
+    const stack = new TrackCurMin();
+    expect(stack.isEmpty()).toBe(true);
+    stack.push(1);
+    expect(stack.isEmpty()).toBe(false);
+    stack.pop();
+    expect(stack.isEmpty()).toBe(true);
   });
 });
