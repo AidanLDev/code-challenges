@@ -3,6 +3,7 @@ import { describe, it, expect } from "@jest/globals";
 import {
   SingleArrayThreeStacks,
   TrackCurMin,
+  StackOfPlates,
 } from "./CTCI_Chapter_3_Stacks_N_Queues";
 
 describe("CTCI 3.1 SingleArrayThreeStacks", () => {
@@ -109,5 +110,60 @@ describe("CTCI 3.2 TrackCurMin", () => {
     expect(stack.isEmpty()).toBe(false);
     stack.pop();
     expect(stack.isEmpty()).toBe(true);
+  });
+});
+
+describe("CTCI 3.3 StackOfPlates", () => {
+  it("pushes and pops correctly with single stack", () => {
+    const stacks = new StackOfPlates(3);
+    stacks.push(1);
+    stacks.push(2);
+    stacks.push(3);
+    expect(stacks.pop()).toBe(3);
+    expect(stacks.pop()).toBe(2);
+    expect(stacks.pop()).toBe(1);
+    expect(stacks.pop()).toBe(-1); // underflow
+  });
+
+  it("creates new stacks when threshold is reached", () => {
+    const stacks = new StackOfPlates(2);
+    stacks.push(10);
+    stacks.push(20);
+    stacks.push(30); // should create new stack
+    stacks.push(40);
+    expect(stacks.pop()).toBe(40);
+    expect(stacks.pop()).toBe(30);
+    expect(stacks.pop()).toBe(20);
+    expect(stacks.pop()).toBe(10);
+    expect(stacks.pop()).toBe(-1);
+  });
+
+  it("popAt works for specific sub-stack", () => {
+    const stacks = new StackOfPlates(2);
+    stacks.push(1);
+    stacks.push(2);
+    stacks.push(3); // new stack
+    stacks.push(4);
+    expect(stacks.popAt(0)).toBe(2);
+    expect(stacks.popAt(1)).toBe(4);
+    expect(stacks.popAt(1)).toBe(3);
+    expect(stacks.popAt(0)).toBe(1);
+    expect(stacks.popAt(0)).toBe(-1);
+  });
+
+  it("isEmpty works as expected", () => {
+    const stacks = new StackOfPlates(2);
+    expect(stacks.isEmpty()).toBe(true);
+    stacks.push(5);
+    expect(stacks.isEmpty()).toBe(false);
+    stacks.pop();
+    expect(stacks.isEmpty()).toBe(true);
+  });
+
+  it("popAt returns -1 for invalid index or empty", () => {
+    const stacks = new StackOfPlates(2);
+    expect(stacks.popAt(0)).toBe(-1);
+    stacks.push(1);
+    expect(stacks.popAt(2)).toBe(-1);
   });
 });

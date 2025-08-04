@@ -145,7 +145,7 @@ class TrackCurMin {
   }
 }
 
-export { TrackCurMin }
+export { TrackCurMin };
 
 /* 3.3. Imagine a (literal) stack of plates. If the stack gets too high, it might topple. Therefore in real life, we would likely start a new stack when the previous stack exceeds some threshold. Implement a data structure SetOfStacks that mimics this. SetOfStacks should be composed of several stacks, and should create a new stack once the previous one exceeds capacity. SetOfStacks.push() and SetOfStacks.pop() should behave identically to a single stack (that is, pop( should return the same value as it would if there is just 1 stack))
 
@@ -153,6 +153,47 @@ FOLLOW UP:
 
 Implement a function popAt(int index) which performs a pop operation on a specific sub-stack
 */
+class StackOfPlates {
+  private readonly stacks: number[][];
+  private stackIndex: number;
+  private readonly stackSize: number;
+
+  constructor(maxStackSize: number) {
+    this.stacks = [[]];
+    this.stackIndex = 0;
+    this.stackSize = maxStackSize;
+  }
+
+  isEmpty() {
+    return this.stacks[0].length === 0;
+  }
+
+  push(value: number) {
+    if (this.stacks[this.stackIndex].length >= this.stackSize) {
+      this.stacks.push([]);
+      this.stackIndex++;
+    }
+    this.stacks[this.stackIndex].push(value);
+  }
+
+  pop(): number {
+    if (this.isEmpty()) return -1;
+    const numberToReturn = this.stacks[this.stackIndex].pop() as number;
+    if (this.stacks[this.stackIndex].length === 0 && this.stackIndex > 0) {
+      this.stacks.pop();
+      this.stackIndex--;
+    }
+    return numberToReturn;
+  }
+
+  popAt(stackIdx: number): number {
+    if (stackIdx > this.stackIndex || this.isEmpty()) {
+      return -1;
+    }
+    return this.stacks[stackIdx].pop() as number;
+  }
+}
+export { StackOfPlates };
 
 /*
 3.4 In the classic problem of the Towers of Hanoi, you have 3 rods and N disks of different sizes which can slide onto any tower. The puzzle starts when discs sorted in ascending order of size form top to bottom (e.g., each disk sits on top of an even larger one). You have the following constraints:
