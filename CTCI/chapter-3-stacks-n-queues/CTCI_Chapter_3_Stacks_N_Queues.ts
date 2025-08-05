@@ -207,6 +207,56 @@ C: A disk can only be placed on top of a larger disk
 Write a program to move the disks from the first rod to the last rod using Stacks.
 
 */
+export function moveDisks(numberOfDisks: number) {
+  const rod1: number[] = [];
+  const rod2: number[] = [];
+  const rod3: number[] = [];
+
+  // Add disks with largest at the bottom, smallest at the top
+  for (let i = numberOfDisks; i >= 1; i--) {
+    rod1.push(i);
+  }
+
+  function move(
+    n: number,
+    source: number[],
+    target: number[],
+    auxiliary: number[],
+    sourceName: string,
+    targetName: string,
+    auxiliaryName: string
+  ) {
+    if (n === 0) return;
+    // Move n-1 disks from source to auxiliary
+    move(
+      n - 1,
+      source,
+      auxiliary,
+      target,
+      sourceName,
+      auxiliaryName,
+      targetName
+    );
+    // Move the nth disk from source to target
+    const disk = source.pop();
+    if (disk !== undefined) {
+      target.push(disk);
+      console.log(`Move disk ${disk} from ${sourceName} to ${targetName}`);
+    }
+    // Move n-1 disks from auxiliary to target
+    move(
+      n - 1,
+      auxiliary,
+      target,
+      source,
+      auxiliaryName,
+      targetName,
+      sourceName
+    );
+  }
+
+  move(numberOfDisks, rod1, rod3, rod2, "rod1", "rod3", "rod2");
+}
 
 // 3.5 Implement a MyQueue class which implements a queue using two stacks
 

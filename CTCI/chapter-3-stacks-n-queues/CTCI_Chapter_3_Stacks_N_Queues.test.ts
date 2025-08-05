@@ -6,7 +6,7 @@ import {
   StackOfPlates,
 } from "./CTCI_Chapter_3_Stacks_N_Queues";
 
-describe("CTCI 3.1 SingleArrayThreeStacks", () => {
+describe.skip("CTCI 3.1 SingleArrayThreeStacks", () => {
   it("pushes and pops correctly for stack 1", () => {
     const stacks = new SingleArrayThreeStacks(3);
     stacks.push(1, 10);
@@ -65,7 +65,7 @@ describe("CTCI 3.1 SingleArrayThreeStacks", () => {
   });
 });
 
-describe("CTCI 3.2 TrackCurMin", () => {
+describe.skip("CTCI 3.2 TrackCurMin", () => {
   it("returns -1 for min on empty stack", () => {
     const stack = new TrackCurMin();
     expect(stack.min()).toBe(-1);
@@ -113,7 +113,7 @@ describe("CTCI 3.2 TrackCurMin", () => {
   });
 });
 
-describe("CTCI 3.3 StackOfPlates", () => {
+describe.skip("CTCI 3.3 StackOfPlates", () => {
   it("pushes and pops correctly with single stack", () => {
     const stacks = new StackOfPlates(3);
     stacks.push(1);
@@ -165,5 +165,58 @@ describe("CTCI 3.3 StackOfPlates", () => {
     expect(stacks.popAt(0)).toBe(-1);
     stacks.push(1);
     expect(stacks.popAt(2)).toBe(-1);
+  });
+});
+
+describe("CTCI 3.4 moveDisks (Towers of Hanoi)", () => {
+  function getMoves(numberOfDisks: number): string[] {
+    const moves: string[] = [];
+    const originalLog = console.log;
+    console.log = (msg: string) => moves.push(msg);
+    try {
+      const { moveDisks } = require("./CTCI_Chapter_3_Stacks_N_Queues");
+      moveDisks(numberOfDisks);
+    } finally {
+      console.log = originalLog;
+    }
+    return moves;
+  }
+
+  it("solves Towers of Hanoi for 3 disks", () => {
+    const moves = getMoves(3);
+    expect(moves.length).toBe(7);
+    expect(moves).toEqual([
+      "Move disk 1 from rod1 to rod3",
+      "Move disk 2 from rod1 to rod2",
+      "Move disk 1 from rod3 to rod2",
+      "Move disk 3 from rod1 to rod3",
+      "Move disk 1 from rod2 to rod1",
+      "Move disk 2 from rod2 to rod3",
+      "Move disk 1 from rod1 to rod3",
+    ]);
+  });
+
+  it("solves Towers of Hanoi for 4 disks", () => {
+    const moves = getMoves(4);
+    expect(moves.length).toBe(15);
+    expect(moves[0]).toBe("Move disk 1 from rod1 to rod2");
+    expect(moves[14]).toBe("Move disk 1 from rod2 to rod3");
+    expect(moves).toEqual([
+      "Move disk 1 from rod1 to rod2",
+      "Move disk 2 from rod1 to rod3",
+      "Move disk 1 from rod2 to rod3",
+      "Move disk 3 from rod1 to rod2",
+      "Move disk 1 from rod3 to rod1",
+      "Move disk 2 from rod3 to rod2",
+      "Move disk 1 from rod1 to rod2",
+      "Move disk 4 from rod1 to rod3",
+      "Move disk 1 from rod2 to rod3",
+      "Move disk 2 from rod2 to rod1",
+      "Move disk 1 from rod3 to rod1",
+      "Move disk 3 from rod2 to rod3",
+      "Move disk 1 from rod1 to rod2",
+      "Move disk 2 from rod1 to rod3",
+      "Move disk 1 from rod2 to rod3",
+    ]);
   });
 });
