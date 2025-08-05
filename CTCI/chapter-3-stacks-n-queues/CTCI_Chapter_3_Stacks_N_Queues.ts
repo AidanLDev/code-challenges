@@ -259,5 +259,58 @@ export function moveDisks(numberOfDisks: number) {
 }
 
 // 3.5 Implement a MyQueue class which implements a queue using two stacks
+class MyQueue {
+  /*
+    - Queues operate F(irst)IFO instead of L(ast)IFO
+    - Need one stack to keep oldest item on top, basically reverse the stack so oldest are first and newest last
+    - Another stack to push items into
+  */
+
+  private readonly inStack: any[] = [];
+  private readonly outStack: any[] = [];
+
+  private rebuildOutStack() {
+    while (this.inStack.length > 0) {
+      this.outStack.push(this.inStack.pop());
+    }
+  }
+
+  push(item: any) {
+    this.inStack.push(item);
+  }
+
+  pop(): any {
+    if (this.outStack.length <= 0) {
+      this.rebuildOutStack();
+    }
+    console.log("outStack after re-build is: ", this.outStack);
+    if (this.outStack.length === 0) return -1;
+    return this.outStack.pop();
+  }
+
+  peak(): any {
+    if (this.outStack.length <= 0) {
+      this.rebuildOutStack();
+    }
+    if (this.outStack.length === 0) return -1;
+    return this.outStack[this.outStack.length - 1];
+  }
+}
+
+export { MyQueue };
 
 // 3.6 Write a program to sort and stack in ascending order. You should not make any assumptions about how the stack is implemented. The following are the only functions that should be used to write this program: push | pop | peek | isEmpty.
+export function sortStack(stack: number[]) {
+  const sortedStack: number[] = [];
+  while (stack.length > 0) {
+    const tmp = stack.pop() as number;
+    while (
+      sortedStack.length > 0 &&
+      sortedStack[sortedStack.length - 1] > tmp
+    ) {
+      stack.push(sortedStack.pop() as number);
+    }
+    sortedStack.push(tmp);
+  }
+  return sortedStack;
+}

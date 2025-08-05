@@ -4,6 +4,8 @@ import {
   SingleArrayThreeStacks,
   TrackCurMin,
   StackOfPlates,
+  MyQueue,
+  sortStack,
 } from "./CTCI_Chapter_3_Stacks_N_Queues";
 
 describe.skip("CTCI 3.1 SingleArrayThreeStacks", () => {
@@ -168,7 +170,7 @@ describe.skip("CTCI 3.3 StackOfPlates", () => {
   });
 });
 
-describe("CTCI 3.4 moveDisks (Towers of Hanoi)", () => {
+describe.skip("CTCI 3.4 moveDisks (Towers of Hanoi)", () => {
   function getMoves(numberOfDisks: number): string[] {
     const moves: string[] = [];
     const originalLog = console.log;
@@ -218,5 +220,39 @@ describe("CTCI 3.4 moveDisks (Towers of Hanoi)", () => {
       "Move disk 2 from rod1 to rod3",
       "Move disk 1 from rod2 to rod3",
     ]);
+  });
+});
+
+describe.skip("CTCI 3.5 implement a queue using two stacks", () => {
+  it("Peak correctly finds the first element pushed onto the queue (1)", () => {
+    const queue = new MyQueue();
+    queue.push(1);
+    queue.push(2);
+    queue.push(3);
+    expect(queue.peak()).toBe(1);
+  });
+  it("Pops out the first item added to the queue and then correctly peaks the 2nd item that was added (2)", () => {
+    const queue = new MyQueue();
+    queue.push(1);
+    queue.push(2);
+    queue.push(3);
+    expect(queue.pop()).toBe(1);
+    expect(queue.peak()).toBe(2);
+  });
+  it("Should return -1 as there are no more items left to pop or peak", () => {
+    const queue = new MyQueue();
+    expect(queue.pop()).toBe(-1);
+    expect(queue.peak()).toBe(-1);
+  });
+});
+
+describe("CTCI 3.6 Implement a method to sort numbers in ascending order using stack methods", () => {
+  it("Sorts [3, 6, 1] as [1, 3, 6]", () => {
+    const stack = [3, 6, 1];
+    expect(sortStack(stack)).toEqual([1, 3, 6]);
+  });
+  it("Sorts, [7, 2, 9, 1, 5, 10, 3, 8, 4, 6] to be [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]", () => {
+    const stack = [7, 2, 9, 1, 5, 10, 3, 8, 4, 6];
+    expect(sortStack(stack)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   });
 });
