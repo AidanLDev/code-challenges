@@ -9,6 +9,11 @@ export interface Vertex {
   edges: Vertex[];
 }
 
+export interface ListNode {
+  value: number;
+  next?: ListNode;
+}
+
 // - 4.1: Implement a function to check if a tree is balanced. For the purpose of this questin, a balanced tree is defined to be a tree such that no two leaf nodes differ in distance from the root by more than one
 export function isBalanced(root: TreeNode): boolean {
   let longestBranch = -Infinity;
@@ -53,46 +58,52 @@ export function isRouteBetweenVertexes(start: Vertex, end: Vertex): boolean {
 
 // - 4.3: Given a sorted (increasing order) array, write an algorithm to created a binary tree with minimal height
 export function createTreeFromArray(numbers: number[]) {
-  if (numbers.length === 0) return {};
+  if (numbers.length === 0) return undefined;
 
   function createTreeNode(num: number): TreeNode {
     return { value: num, left: undefined, right: undefined };
   }
 
-  const tree = createTreeNode(
-    numbers.splice(Math.floor(numbers.length / 2), 1)[0]
-  );
+  const mid = Math.floor(numbers.length / 2);
+  const root = createTreeNode(numbers[mid]);
 
-  if (numbers.length === 1) {
-    return tree;
-  }
+  root.left = createTreeFromArray(numbers.slice(0, mid));
+  root.right = createTreeFromArray(numbers.slice(mid + 1));
 
-  const numberToAdd = numbers.splice(Math.floor(numbers.length / 2), 1)[0];
-
-  function buildTree(tree: TreeNode, num: number) {
-    if (numbers.length === 0) return;
-    const treeValue = tree.value as number;
-    if (num > treeValue) {
-      if (tree.right) {
-        buildTree(tree.right, num);
-      }
-      tree.right = createTreeNode(num);
-      if (numbers.length > 0)
-        buildTree(tree, numbers.splice(Math.floor(numbers.length / 2), 1)[0]);
-    } else {
-      if (tree.left) {
-        buildTree(tree.left, num);
-      }
-      tree.left = createTreeNode(num);
-      if (numbers.length > 0)
-        buildTree(tree, numbers.splice(Math.floor(numbers.length / 2), 1)[0]);
-    }
-  }
-
-  buildTree(tree, numberToAdd);
-  return tree;
+  return root;
 }
 // - 4.4: Given a binary search tree, design an algorithm which creates a linked list of all the nodes at each depth (i.e. if you have a tree with depth D, you'll have D linked lists)
+export function createLinkedListsFromTree(tree: TreeNode) {
+  // BFS level by level
+  if (!tree) return [];
+  const result: ListNode[][] = [];
+  let queue: (TreeNode | undefined)[] = [tree];
+  while (queue.length > 0) {
+    const levelSize = queue.length;
+    const levelNodes: ListNode[] = [];
+    for (let i = 0; i < levelSize; i++) {
+      const node = queue.shift();
+      if (node) {
+        // Create ListNode for this value
+        levelNodes.push({ value: node.value as number });
+        if (node.left) queue.push(node.left);
+        if (node.right) queue.push(node.right);
+      }
+    }
+    if (levelNodes.length > 0) {
+      // Optionally, link the ListNodes for this level
+      for (let i = 0; i < levelNodes.length - 1; i++) {
+        levelNodes[i].next = levelNodes[i + 1];
+      }
+      result.push(levelNodes);
+    }
+  }
+  return result;
+}
+
+// Example: create a BST from a sorted array for demonstration
+const bstExample = createTreeFromArray([1, 2, 3, 4, 5, 6, 7]) as TreeNode;
+createLinkedListsFromTree(bstExample);
 
 // - 4.5: Write an algorithm to find the 'next' node (i.e. in order sucessor) of a given node in a binary search tree where each node has a link to its parent
 
