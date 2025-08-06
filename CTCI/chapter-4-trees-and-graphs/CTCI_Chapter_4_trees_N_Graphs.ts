@@ -4,6 +4,11 @@ export interface TreeNode {
   right?: TreeNode;
 }
 
+export interface Vertex {
+  value: number | string;
+  edges: Vertex[];
+}
+
 // - 4.1: Implement a function to check if a tree is balanced. For the purpose of this questin, a balanced tree is defined to be a tree such that no two leaf nodes differ in distance from the root by more than one
 export function isBalanced(root: TreeNode): boolean {
   let longestBranch = -Infinity;
@@ -15,11 +20,9 @@ export function isBalanced(root: TreeNode): boolean {
       return;
     }
     if (node.left) {
-      curDepth++;
       traverse(node.left, curDepth + 1);
     }
     if (node.right) {
-      curDepth++;
       traverse(node.right, curDepth + 1);
     }
   }
@@ -28,6 +31,25 @@ export function isBalanced(root: TreeNode): boolean {
 }
 
 // - 4.2: Given a directed graph, design an algorithm to find out wheather there is a route between two nodes.
+export function isRouteBetweenVertexes(start: Vertex, end: Vertex): boolean {
+  if (start === end) return true;
+
+  const visited = new Set<Vertex>();
+  const queue: Vertex[] = [start];
+
+  while (queue.length > 0) {
+    const current = queue.shift()!;
+    if (current === end) return true;
+    visited.add(current);
+
+    for (const neighbor of current.edges) {
+      if (!visited.has(neighbor)) {
+        queue.push(neighbor);
+      }
+    }
+  }
+  return false;
+}
 
 // - 4.3: Given a sorted (increasing order) array, write an algorithm to created a binary tree with minimal height
 
