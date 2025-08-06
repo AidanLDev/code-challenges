@@ -52,7 +52,46 @@ export function isRouteBetweenVertexes(start: Vertex, end: Vertex): boolean {
 }
 
 // - 4.3: Given a sorted (increasing order) array, write an algorithm to created a binary tree with minimal height
+export function createTreeFromArray(numbers: number[]) {
+  if (numbers.length === 0) return {};
 
+  function createTreeNode(num: number): TreeNode {
+    return { value: num, left: undefined, right: undefined };
+  }
+
+  const tree = createTreeNode(
+    numbers.splice(Math.floor(numbers.length / 2), 1)[0]
+  );
+
+  if (numbers.length === 1) {
+    return tree;
+  }
+
+  const numberToAdd = numbers.splice(Math.floor(numbers.length / 2), 1)[0];
+
+  function buildTree(tree: TreeNode, num: number) {
+    if (numbers.length === 0) return;
+    const treeValue = tree.value as number;
+    if (num > treeValue) {
+      if (tree.right) {
+        buildTree(tree.right, num);
+      }
+      tree.right = createTreeNode(num);
+      if (numbers.length > 0)
+        buildTree(tree, numbers.splice(Math.floor(numbers.length / 2), 1)[0]);
+    } else {
+      if (tree.left) {
+        buildTree(tree.left, num);
+      }
+      tree.left = createTreeNode(num);
+      if (numbers.length > 0)
+        buildTree(tree, numbers.splice(Math.floor(numbers.length / 2), 1)[0]);
+    }
+  }
+
+  buildTree(tree, numberToAdd);
+  return tree;
+}
 // - 4.4: Given a binary search tree, design an algorithm which creates a linked list of all the nodes at each depth (i.e. if you have a tree with depth D, you'll have D linked lists)
 
 // - 4.5: Write an algorithm to find the 'next' node (i.e. in order sucessor) of a given node in a binary search tree where each node has a link to its parent
