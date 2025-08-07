@@ -4,6 +4,12 @@ export interface TreeNode {
   right?: TreeNode;
 }
 
+export interface GenericTreeNode<T> {
+  value: T;
+  left?: GenericTreeNode<T>;
+  right?: GenericTreeNode<T>;
+}
+
 export interface Vertex {
   value: number | string;
   edges: Vertex[];
@@ -132,6 +138,24 @@ export function findNextNode(
 }
 
 // - 4.6: Design an algorithm and write code to find the first common ancesotor of two nodes in a binary tree. Avoid storing additional nodes in data structure. NoTE: this is not necessarily a binary search tree
+export function findCommonAncestor(
+  root: GenericTreeNode<number> | undefined,
+  node1: number,
+  node2: number
+): GenericTreeNode<number> | undefined {
+  if (!root || root.value === node1 || root.value === node2) return root;
+
+  const left = findCommonAncestor(root.left, node1, node2);
+  const right = findCommonAncestor(root.right, node1, node2);
+
+  // If both sides return non-null, root is the common ancestor
+  if (left && right) {
+    return root; // First common ancestor
+  }
+
+  // If only one is not null, return whichever has a value
+  return left || right;
+}
 
 // - 4.7: You have two very large binary trees: T1, with millions of nodes, and T2, with hundreds of nodes. Create an algorithm to decide if T2 is a subtree of T1.
 

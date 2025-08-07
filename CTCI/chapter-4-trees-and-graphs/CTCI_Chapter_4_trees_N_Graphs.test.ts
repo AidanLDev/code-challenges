@@ -1,4 +1,3 @@
-import { describe, it, expect } from "@jest/globals";
 import {
   isBalanced,
   TreeNode,
@@ -7,7 +6,10 @@ import {
   createTreeFromArray,
   createLinkedListsFromTree,
   findNextNode,
+  findCommonAncestor,
+  GenericTreeNode,
 } from "./CTCI_Chapter_4_trees_N_Graphs";
+// --- 4.6 findCommonAncestor tests ---
 
 describe("CTCI 4.1 Check if a tree is balanced", () => {
   it("Correctly identifies a balanced tree", () => {
@@ -230,5 +232,68 @@ describe("CTCI 4.5 findNextNode", () => {
   it("returns undefined if the target is not in the tree", () => {
     const tree = createTreeFromArray([1, 2, 3, 4, 5])!;
     expect(findNextNode(tree, 42)).toBeUndefined();
+  });
+});
+
+describe("CTCI 4.6 findCommonAncestor", () => {
+  function makeTree(): GenericTreeNode<number> {
+    //      1
+    //     / \
+    //    2   3
+    //   / \   \
+    //  4   5   6
+    return {
+      value: 1,
+      left: {
+        value: 2,
+        left: { value: 4 },
+        right: { value: 5 },
+      },
+      right: {
+        value: 3,
+        right: { value: 6 },
+      },
+    };
+  }
+
+  it("returns the correct ancestor for two leaf nodes with same parent", () => {
+    const tree = makeTree();
+    const ancestor = findCommonAncestor(tree, 4, 5);
+    expect(ancestor?.value).toBe(2);
+  });
+
+  it("returns the correct ancestor for nodes on different subtrees", () => {
+    const tree = makeTree();
+    const ancestor = findCommonAncestor(tree, 4, 6);
+    expect(ancestor?.value).toBe(1);
+  });
+
+  it("returns the node itself if one node is ancestor of the other", () => {
+    const tree = makeTree();
+    const ancestor = findCommonAncestor(tree, 2, 4);
+    expect(ancestor?.value).toBe(2);
+  });
+
+  it("returns the node itself if both nodes are the same", () => {
+    const tree = makeTree();
+    const ancestor = findCommonAncestor(tree, 4, 4);
+    expect(ancestor?.value).toBe(4);
+  });
+
+  it("returns undefined if neither node is in the tree", () => {
+    const tree = makeTree();
+    const ancestor = findCommonAncestor(tree, 99, 100);
+    expect(ancestor).toBeUndefined();
+  });
+
+  it("returns the node if only one node is in the tree and the other is the same", () => {
+    const tree = makeTree();
+    const ancestor = findCommonAncestor(tree, 1, 99);
+    expect(ancestor?.value).toBe(1);
+  });
+
+  it("returns undefined for empty tree", () => {
+    const ancestor = findCommonAncestor(undefined, 1, 2);
+    expect(ancestor).toBeUndefined();
   });
 });
