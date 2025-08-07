@@ -7,9 +7,9 @@ import {
   createLinkedListsFromTree,
   findNextNode,
   findCommonAncestor,
+  isSubtree,
   GenericTreeNode,
 } from "./CTCI_Chapter_4_trees_N_Graphs";
-// --- 4.6 findCommonAncestor tests ---
 
 describe("CTCI 4.1 Check if a tree is balanced", () => {
   it("Correctly identifies a balanced tree", () => {
@@ -295,5 +295,76 @@ describe("CTCI 4.6 findCommonAncestor", () => {
   it("returns undefined for empty tree", () => {
     const ancestor = findCommonAncestor(undefined, 1, 2);
     expect(ancestor).toBeUndefined();
+  });
+});
+
+// --- 4.7 isSubtree tests ---
+describe("CTCI 4.7 isSubtree", () => {
+  function makeTree(): GenericTreeNode<number> {
+    //      1
+    //     / \
+    //    2   3
+    //   / \   \
+    //  4   5   6
+    return {
+      value: 1,
+      left: {
+        value: 2,
+        left: { value: 4 },
+        right: { value: 5 },
+      },
+      right: {
+        value: 3,
+        right: { value: 6 },
+      },
+    };
+  }
+
+  it("returns true when T2 is identical to T1", () => {
+    const t1 = makeTree();
+    const t2 = makeTree();
+    expect(isSubtree(t1, t2)).toBe(true);
+  });
+
+  it("returns true when T2 is a left subtree of T1", () => {
+    const t1 = makeTree();
+    const t2 = t1.left;
+    expect(isSubtree(t1, t2)).toBe(true);
+  });
+
+  it("returns true when T2 is a right subtree of T1", () => {
+    const t1 = makeTree();
+    const t2 = t1.right;
+    expect(isSubtree(t1, t2)).toBe(true);
+  });
+
+  it("returns true when T2 is a leaf node of T1", () => {
+    const t1 = makeTree();
+    const t2 = { value: 4 };
+    expect(isSubtree(t1, t2)).toBe(true);
+  });
+
+  it("returns false when T2 is not a subtree of T1", () => {
+    const t1 = makeTree();
+    const t2 = {
+      value: 2,
+      left: { value: 4 },
+      right: { value: 99 }, // 99 does not exist in t1
+    };
+    expect(isSubtree(t1, t2)).toBe(false);
+  });
+
+  it("returns true when T2 is empty (undefined)", () => {
+    const t1 = makeTree();
+    expect(isSubtree(t1, undefined)).toBe(true);
+  });
+
+  it("returns false when T1 is empty and T2 is not", () => {
+    const t2 = { value: 1 };
+    expect(isSubtree(undefined, t2)).toBe(false);
+  });
+
+  it("returns true when both T1 and T2 are empty (undefined)", () => {
+    expect(isSubtree(undefined, undefined)).toBe(true);
   });
 });

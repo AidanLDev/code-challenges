@@ -158,5 +158,26 @@ export function findCommonAncestor(
 }
 
 // - 4.7: You have two very large binary trees: T1, with millions of nodes, and T2, with hundreds of nodes. Create an algorithm to decide if T2 is a subtree of T1.
+export function isSubtree(
+  t1: GenericTreeNode<number> | undefined,
+  t2: GenericTreeNode<number> | undefined
+): boolean {
+  if (!t2) return true;
+  if (!t1) return false;
+
+  if (areIdentical(t1, t2)) return true;
+
+  return isSubtree(t1.left, t2) || isSubtree(t1.right, t2);
+}
+
+function areIdentical(
+  a: GenericTreeNode<number> | undefined,
+  b: GenericTreeNode<number> | undefined
+): boolean {
+  if (!a && !b) return true; // Reached base case, must be true
+  if (!a || !b) return false; // There's one but not the other, can't be true
+  if (a.value !== b.value) return false;
+  return areIdentical(a.left, b.left) && areIdentical(a.right, b.right);
+}
 
 // - 4.8: You are given a binary tree in which each node contains a value. Design an algorithm to print all paths which sum up to that value. Note that it can be any path in the tree - it does not have to start at the root.
