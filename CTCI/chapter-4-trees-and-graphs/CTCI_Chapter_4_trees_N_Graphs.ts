@@ -106,21 +106,29 @@ const bstExample = createTreeFromArray([1, 2, 3, 4, 5, 6, 7]) as TreeNode;
 createLinkedListsFromTree(bstExample);
 
 // - 4.5: Write an algorithm to find the 'next' node (i.e. in order sucessor) of a given node in a binary search tree where each node has a link to its parent
-export function findNextNode(tree: TreeNode, target: number) {
-  function traverse(curNode: TreeNode, returnNext: boolean) {
-    if (returnNext) return tree.value;
-    if (!curNode.left && !curNode.right) return;
-    if (curNode.left) {
-      if (curNode.value === target) traverse(curNode.left, true);
-      traverse(curNode.left, false);
-    }
-    if (curNode.right) {
-      if (curNode.value === target) traverse(curNode.right, true);
-      traverse(curNode.right, false);
-    }
+export function findNextNode(
+  tree: TreeNode,
+  target: number
+): number | undefined {
+  if (!tree) return undefined;
+
+  const values: number[] = [];
+
+  function traverse(treeNode?: TreeNode) {
+    if (!treeNode) return;
+    traverse(treeNode.left);
+    values.push(Number(treeNode.value));
+    traverse(treeNode.right);
   }
 
-  return traverse(tree, false);
+  traverse(tree);
+
+  const targetIndex = values.indexOf(target);
+  if (targetIndex !== -1 && targetIndex < values.length - 1) {
+    return values[targetIndex + 1];
+  }
+
+  return undefined;
 }
 
 // - 4.6: Design an algorithm and write code to find the first common ancesotor of two nodes in a binary tree. Avoid storing additional nodes in data structure. NoTE: this is not necessarily a binary search tree

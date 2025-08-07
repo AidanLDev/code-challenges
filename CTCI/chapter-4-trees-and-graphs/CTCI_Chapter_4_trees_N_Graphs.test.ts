@@ -6,6 +6,7 @@ import {
   Vertex,
   createTreeFromArray,
   createLinkedListsFromTree,
+  findNextNode,
 } from "./CTCI_Chapter_4_trees_N_Graphs";
 
 describe("CTCI 4.1 Check if a tree is balanced", () => {
@@ -193,5 +194,41 @@ describe("CTCI 4.4 createLinkedListsFromTree", () => {
     expect(lists[2][1].next).toBe(lists[2][2]);
     expect(lists[2][2].next).toBe(lists[2][3]);
     expect(lists[2][3].next).toBeUndefined();
+  });
+});
+
+describe("CTCI 4.5 findNextNode", () => {
+  it("returns the in-order successor for a node with a right child", () => {
+    // Tree:      2
+    //          /   \
+    //         1     3
+    const tree = createTreeFromArray([1, 2, 3])!;
+    expect(findNextNode(tree, 2)).toBe(3);
+  });
+
+  it("returns the in-order successor for a node with no right child", () => {
+    // Tree:      2
+    //          /   \
+    //         1     3
+    const tree = createTreeFromArray([1, 2, 3])!;
+    expect(findNextNode(tree, 1)).toBe(2);
+    expect(findNextNode(tree, 3)).toBeUndefined(); // 3 is the last node
+  });
+
+  it("returns correct successors in a larger BST", () => {
+    // Tree from [1,2,3,4,5,6,7]
+    const tree = createTreeFromArray([1, 2, 3, 4, 5, 6, 7])!;
+    expect(findNextNode(tree, 1)).toBe(2);
+    expect(findNextNode(tree, 2)).toBe(3);
+    expect(findNextNode(tree, 3)).toBe(4);
+    expect(findNextNode(tree, 4)).toBe(5);
+    expect(findNextNode(tree, 5)).toBe(6);
+    expect(findNextNode(tree, 6)).toBe(7);
+    expect(findNextNode(tree, 7)).toBeUndefined();
+  });
+
+  it("returns undefined if the target is not in the tree", () => {
+    const tree = createTreeFromArray([1, 2, 3, 4, 5])!;
+    expect(findNextNode(tree, 42)).toBeUndefined();
   });
 });
