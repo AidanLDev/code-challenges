@@ -181,3 +181,32 @@ function areIdentical(
 }
 
 // - 4.8: You are given a binary tree in which each node contains a value. Design an algorithm to print all paths which sum up to that value. Note that it can be any path in the tree - it does not have to start at the root.
+// CTCI 4.8: Print all downward paths in a binary tree that sum to a target value
+export function printSumPaths(
+  root: GenericTreeNode<number> | undefined,
+  target: number
+): void {
+  function findPaths(
+    node: GenericTreeNode<number> | undefined,
+    path: number[] = []
+  ) {
+    if (!node) return;
+    // Add current node to path
+    path.push(node.value);
+    // Check all sub-paths ending at this node
+    let sum = 0;
+    for (let i = path.length - 1; i >= 0; i--) {
+      sum += path[i];
+      if (sum === target) {
+        // Print the path from i to end
+        console.log(path.slice(i));
+      }
+    }
+    // Recurse left and right
+    findPaths(node.left, path);
+    findPaths(node.right, path);
+    // Backtrack
+    path.pop();
+  }
+  findPaths(root, []);
+}
