@@ -1,14 +1,46 @@
 // - 5.1: You are given two 32-bit numbers, N and M, and two bit positions, i and j. Write a method to set all bits between i and j in N equal to M (e.g., M becomes a substring of N located at i and starting at j).
 /*
 EXAMPLE: 
-input N = 10000000000, M = 10101, i = 2, j = 6
+input  N = 10000000000, M = 10101, i = 2, j = 6
 Output N = 10000101010100
 */
-export function subStrings(N, M, i, j) {
-  
+export function subStrings(N: number, M: number, i: number, j: number): number {
+  const left = -1 << (j + 1);
+  const right = (1 << i) - 1;
+  const mask = left | right;
+
+  const n_cleared = N & mask;
+  const m_shifted = M << i;
+
+  // Always return as unsigned 32-bit integer
+  return (n_cleared | m_shifted) >>> 0;
 }
 
 // - 5.2: Given a (decimal - e.g. 3.72) number that is parsed in as a string, print the binary reprsentation. If the number can not be represented accurately in binary, print "ERROR"
+export function convertDecimalToBinary(decimalNum: string) {
+  const [wholeNum, fractionalNum] = decimalNum.split(".");
+  const wholeNumBinary = Number(wholeNum).toString(2);
+
+  if (!fractionalNum || Number(fractionalNum) === 0) return wholeNumBinary;
+  const MAX_LENGTH = 32;
+
+  let fraction = Number("0." + fractionalNum);
+  let fractionBinary = ".";
+
+  while (fraction > 0) {
+    if (fractionBinary.length > MAX_LENGTH) return "ERROR";
+    fraction *= 2;
+
+    if (fraction >= 1) {
+      fractionBinary += "1";
+      fraction -= 1;
+    } else {
+      fractionBinary += "0";
+    }
+  }
+
+  return wholeNumBinary + fractionBinary;
+}
 
 // - 5.3: Given an integer, print the next smallest and next largets number that have the same number of 1 bits in their binary representation.
 
