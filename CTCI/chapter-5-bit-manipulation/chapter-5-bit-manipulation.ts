@@ -83,6 +83,13 @@ console.log("Smallest and largest num that has same bits as 5: ", {
 });
 
 // 5.4 Explain what the following code does: ((n & (n-1)) == 0)
+/**
+ * @description ((n & (n - 1)) == 0)
+ * This expression checks if n is a power of two (or 0)
+ * It works because of power of two in binary has exactly one bit set.
+ * Subtracting 1 flips all the bits after the rightmost set bit (including it),
+ * so n & (n - 1) will only be 0 for powers of two (and 0)
+ */
 
 /*
 5.5 Write a function to determine the number of bits required to convert integer A to integer B
