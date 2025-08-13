@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.subStrings = subStrings;
 exports.convertDecimalToBinary = convertDecimalToBinary;
 exports.nextSameBits = nextSameBits;
+exports.bitsRequiredToConvertAtoB = bitsRequiredToConvertAtoB;
 // - 5.1: You are given two 32-bit numbers, N and M, and two bit positions, i and j. Write a method to set all bits between i and j in N equal to M (e.g., M becomes a substring of N located at i and starting at j).
 /*
 EXAMPLE:
@@ -73,18 +74,32 @@ function nextSameBits(num /* e.g. 5 */) {
     }
     return [smallestNum, largestNum];
 }
-var _a = nextSameBits(5), smallest = _a[0], largest = _a[1];
-console.log("Smallest and largest num that has same bits as 5: ", {
-    smallest: smallest,
-    largest: largest,
-});
 // 5.4 Explain what the following code does: ((n & (n-1)) == 0)
+/**
+ * @description ((n & (n - 1)) == 0)
+ * This expression checks if n is a power of two (or 0)
+ * It works because of power of two in binary has exactly one bit set.
+ * Subtracting 1 flips all the bits after the rightmost set bit (including it),
+ * so n & (n - 1) will only be 0 for powers of two (and 0)
+ */
 /*
 5.5 Write a function to determine the number of bits required to convert integer A to integer B
 
 input: 31, 14
+31 in bits - 11111
+17 in bits (the difference between 31 and 14) - 10001
 
 output: 2
 */
+function bitsRequiredToConvertAtoB(a, b) {
+    var xorSum = a ^ b;
+    var numOfBits = 0;
+    while (xorSum > 0) {
+        numOfBits += xorSum & 1;
+        xorSum >>= 1;
+    }
+    return numOfBits;
+}
+console.log("number of bits between 31 and 14: ", bitsRequiredToConvertAtoB(31, 14));
 // 5.6 Write a program to swap odd and even bits in an integer with as few instructions as possible (e.g., bit 0 and bit 1 are swapped, bit 2 and 3 3 are swapped etc.)
 // 5.7 An array A[1...n] contains all the integers from - to n exepct for one number which is missing. In this problem we cannot access an entire integer in A with a single operation. The elements of A are represented in binary, and the only operation we can use to access them is "fetch the jth bit of A[i]", which takes constant time. Write code to find the missing integer. Can you do it in O(n) time?

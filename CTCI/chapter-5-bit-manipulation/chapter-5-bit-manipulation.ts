@@ -76,12 +76,6 @@ export function nextSameBits(num: number /* e.g. 5 */) {
   return [smallestNum, largestNum];
 }
 
-const [smallest, largest] = nextSameBits(5);
-console.log("Smallest and largest num that has same bits as 5: ", {
-  smallest,
-  largest,
-});
-
 // 5.4 Explain what the following code does: ((n & (n-1)) == 0)
 /**
  * @description ((n & (n - 1)) == 0)
@@ -95,10 +89,28 @@ console.log("Smallest and largest num that has same bits as 5: ", {
 5.5 Write a function to determine the number of bits required to convert integer A to integer B
 
 input: 31, 14
+31 in bits - 11111
+17 in bits (the difference between 31 and 14) - 10001
 
 output: 2
 */
+export function bitsRequiredToConvertAtoB(a: number, b: number): number {
+  let xorSum = a ^ b;
+  let numOfBits = 0;
+  while (xorSum > 0) {
+    numOfBits += xorSum & 1;
+    xorSum >>= 1;
+  }
+  return numOfBits;
+}
 
 // 5.6 Write a program to swap odd and even bits in an integer with as few instructions as possible (e.g., bit 0 and bit 1 are swapped, bit 2 and 3 3 are swapped etc.)
+export function swapBits(num: number): number {
+  const evenMask = 0xaaaaaaaa;
+  const oddMask = 0x55555555;
+  const evenBits = num & evenMask;
+  const oddBits = num & oddMask;
+  return ((evenBits >>> 1) | (oddBits << 1)) >>> 0;
+}
 
 // 5.7 An array A[1...n] contains all the integers from - to n exepct for one number which is missing. In this problem we cannot access an entire integer in A with a single operation. The elements of A are represented in binary, and the only operation we can use to access them is "fetch the jth bit of A[i]", which takes constant time. Write code to find the missing integer. Can you do it in O(n) time?
