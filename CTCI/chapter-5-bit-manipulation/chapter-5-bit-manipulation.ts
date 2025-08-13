@@ -114,3 +114,10 @@ export function swapBits(num: number): number {
 }
 
 // 5.7 An array A[1...n] contains all the integers from - to n exepct for one number which is missing. In this problem we cannot access an entire integer in A with a single operation. The elements of A are represented in binary, and the only operation we can use to access them is "fetch the jth bit of A[i]", which takes constant time. Write code to find the missing integer. Can you do it in O(n) time?
+export function findMissingNumberInRange(nums: number[]): number {
+  let xorSum = 0;
+  for (let i = 0; i < nums.length; i++) {
+    xorSum += i ^ nums[i];
+  }
+  return xorSum ^ nums.length;
+}
