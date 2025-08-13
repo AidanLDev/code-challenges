@@ -43,6 +43,44 @@ export function convertDecimalToBinary(decimalNum: string) {
 }
 
 // - 5.3: Given an integer, print the next smallest and next largets number that have the same number of 1 bits in their binary representation.
+export function nextSameBits(num: number /* e.g. 5 */) {
+  // num as bits: 101
+  // Count nums 1 bits
+  function findNumberOfOnes(copyOfNum: number): number {
+    let numOfOnes = 0;
+    while (copyOfNum > 0) {
+      numOfOnes += copyOfNum & 1;
+      copyOfNum >>= 1;
+    }
+    return numOfOnes;
+  }
+  let onesInNum = findNumberOfOnes(num);
+
+  let smallestNum = -1;
+  for (let i = num - 1; i > 0; i--) {
+    let curNumOfOnes = findNumberOfOnes(i);
+    if (curNumOfOnes === onesInNum) {
+      smallestNum = i;
+      break;
+    }
+  }
+  let largestNum = -1;
+  const highest32BitInt = Math.pow(2, 32) - 1;
+  for (let i = num + 1; i < highest32BitInt; i++) {
+    let curNumOfOnes = findNumberOfOnes(i);
+    if (curNumOfOnes === onesInNum) {
+      largestNum = i;
+      break;
+    }
+  }
+  return [smallestNum, largestNum];
+}
+
+const [smallest, largest] = nextSameBits(5);
+console.log("Smallest and largest num that has same bits as 5: ", {
+  smallest,
+  largest,
+});
 
 // 5.4 Explain what the following code does: ((n & (n-1)) == 0)
 
