@@ -3,10 +3,6 @@
  * @param heights represents histogram bars
  */
 export function largestRectangleArea(heights: number[]): number {
-  /*
-    want to find the max where the sum of the min heights[i] is largest  
-  */
-
   const stack: number[] = [];
   let maxArea = 0;
 
