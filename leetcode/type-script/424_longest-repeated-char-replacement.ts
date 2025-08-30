@@ -7,11 +7,26 @@
  */
 export function longestCharReplacement(s: string, k: number): number {
   let curLongest = 0;
-
   let l = 0;
-  let r = 0;
+  const charCount: Record<string, number> = {};
+  let maxCount = 0;
 
-  while (r < s.length) {}
+  for (let r = 0; r < s.length; r++) {
+    charCount[s[r]] = (charCount[s[r]] || 0) + 1;
+    maxCount = Math.max(maxCount, charCount[s[r]]);
+
+    while (r - l + 1 - maxCount > k) {
+      charCount[s[l]]--;
+      l++;
+    }
+
+    curLongest = Math.max(curLongest, r - l + 1);
+  }
 
   return curLongest;
 }
+
+const str1 = "ABAB";
+const k1 = 2;
+
+console.log("output1: ", longestCharReplacement(str1, k1));
