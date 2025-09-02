@@ -5,8 +5,8 @@ export interface ListNode {
 
 export interface TreeNode {
   val: number;
-  left: TreeNode;
-  right: TreeNode;
+  left?: TreeNode;
+  right?: TreeNode;
 }
 
 export interface NArrayTreeNode {
