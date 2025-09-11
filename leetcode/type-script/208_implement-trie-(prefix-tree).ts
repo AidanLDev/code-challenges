@@ -1,33 +1,49 @@
-interface TrieNode {
+class TrieNode {
+  children: (TrieNode | null)[];
   isWord: boolean;
-  char: string;
+  constructor() {
+    this.children = Array(26).fill(null);
+    this.isWord = false;
+  }
 }
-
 class Trie {
-  private trieNode?: TrieNode;
-  private trie: TrieNode[];
+  private root: TrieNode;
 
   constructor() {
-    this.trie = [];
+    this.root = new TrieNode();
   }
 
   insert(word: string): void {
-    let wordArr = word.split('');
-    let cur = this.trie[0];
-    /*
-      let cur = trie[0]
-      for each letter:
-        if trie.includes(letter)
-          let curIdx = trie.indexOf(letter);
-          cur = trie[curIdx]
-        else
-          trie.push()
-    */
+    let cur = this.root;
+    for (const char of word) {
+      const i = char.charCodeAt(0) - 97;
+      if (cur.children[i] === null) {
+        cur.children[i] = new TrieNode();
+      }
+      cur = cur.children[i];
+    }
+    cur.isWord = true;
   }
 
-  search(word: string): boolean {}
+  search(word: string): boolean {
+    let cur = this.root;
+    for (const char of word) {
+      const i = char.charCodeAt(0) - 97;
+      if (cur.children[i] === null) return false;
+      cur = cur.children[i];
+    }
+    return cur.isWord;
+  }
 
-  startsWith(prefix: string): boolean {}
+  startsWith(prefix: string): boolean {
+    let cur = this.root;
+    for (const char of prefix) {
+      const i = char.charCodeAt(0) - 97;
+      if (cur.children[i] === null) return false;
+      cur = cur.children[i];
+    }
+    return true;
+  }
 }
 
 /**
