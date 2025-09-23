@@ -24,10 +24,10 @@ Output: false
  * @param s The word we're going to break
  * @param wordDict A list of words we're checking if the string can be space separated into
  */
-function wordBreak(s: string, wordDict: string[]): boolean {
+function wordBreakBruteForce(s: string, wordDict: string[]): boolean {
   if (s.length === 0) return true;
 
-  const memo = {};
+  const memo: Record<string, boolean> = {};
 
   function dfs(sub: string): boolean {
     if (sub.length === 0) return true;
@@ -45,4 +45,20 @@ function wordBreak(s: string, wordDict: string[]): boolean {
   }
 
   return dfs(s);
+}
+
+function wordBreakDP(s: string, wordDict: string[]): boolean {
+  const n = s.length;
+  const dp: boolean[] = Array(n + 1).fill(false);
+  dp[n] = true;
+  for (let i = n - 1; i >= 0; i--) {
+    for (const word of wordDict) {
+      const end = i + word.length;
+      if (end <= n && s.slice(i, end) === word && dp[end]) {
+        dp[i] = true;
+        break;
+      }
+    }
+  }
+  return dp[0];
 }
