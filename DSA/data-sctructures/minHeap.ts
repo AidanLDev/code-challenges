@@ -1,4 +1,4 @@
-class MyMinHeap {
+export class MyMinHeap {
   private data: number[] = [];
 
   size(): number {

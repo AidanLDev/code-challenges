@@ -1,4 +1,4 @@
-class MyMaxHeap {
+export class MyMaxHeap {
   private readonly data: number[] = [];
 
   size(): number {
