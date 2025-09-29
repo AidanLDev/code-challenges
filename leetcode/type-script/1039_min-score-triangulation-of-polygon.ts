@@ -1,0 +1,20 @@
+export function minScoreTriangulation(values: number[]): number {
+  const n = values.length;
+  if (n < 3) return 0;
+  const dp: number[][] = Array.from({ length: n }, () => Array(n).fill(0));
+
+  // length is the distance between i and j (number of vertices in subpolygon)
+  for (let len = 3; len <= n; len++) {
+    for (let i = 0; i + len - 1 < n; i++) {
+      const j = i + len - 1;
+      let best = Number.MAX_SAFE_INTEGER;
+      for (let k = i + 1; k < j; k++) {
+        const cost = dp[i][k] + dp[k][j] + values[i] * values[k] * values[j];
+        if (cost < best) best = cost;
+      }
+      dp[i][j] = best === Number.MAX_SAFE_INTEGER ? 0 : best;
+    }
+  }
+
+  return dp[0][n - 1];
+}
