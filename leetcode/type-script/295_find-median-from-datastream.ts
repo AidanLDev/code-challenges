@@ -10,10 +10,21 @@ class MedianFinder {
    * @param num The number to add to the data structure
    */
   addNum(num: number): void {
-    console.log("adding in num: ", num);
-    this.nums.push(num);
-    this.nums.sort((a, b) => a - b);
-    console.log("nums after sorting is: ", this.nums);
+    let leftIdx = 0;
+    let rightIdx = this.nums.length - 1;
+    while (leftIdx <= rightIdx) {
+      const mid = Math.floor((leftIdx + rightIdx) / 2);
+      if (this.nums[mid] === num) {
+        this.nums.splice(mid, 0, num);
+        return;
+      }
+      if (this.nums[mid] > num) {
+        rightIdx = mid - 1;
+      } else {
+        leftIdx = mid + 1;
+      }
+    }
+    this.nums.splice(leftIdx, 0, num);
   }
 
   /**
@@ -24,10 +35,8 @@ class MedianFinder {
       // Even so return the two middle nums
       const num1 = this.nums[Math.floor(this.nums.length / 2)];
       const num2 = this.nums[Math.floor(this.nums.length / 2) - 1];
-      console.log(`${num1} ${num2} and the sum / 2 is ${(num1 + num2) / 2}`);
       return (num1 + num2) / 2;
     }
-    console.log(`Med num is ${this.nums[Math.floor(this.nums.length / 2)]}`);
     return this.nums[Math.floor(this.nums.length / 2)];
   }
 }
