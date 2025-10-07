@@ -16,6 +16,9 @@ function orangesRotting(grid: number[][]): number {
       if (grid[r][c] === 2) {
         queue.push([r, c, 0]);
       }
+    
+    
+    
     }
   }
 
