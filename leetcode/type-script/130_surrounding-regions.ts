@@ -6,6 +6,13 @@ function solve(board: string[][]): void {
   const rows = board.length;
   const cols = board[0].length;
 
+  const dirs = [
+    [-1, 0],
+    [1, 0],
+    [0, -1],
+    [0, 1],
+  ];
+
   function inBounds(row: number, col: number): boolean {
     if (row < 0 || col < 0 || row >= rows || col >= cols || seen[row][col])
       return false;
@@ -21,12 +28,6 @@ function solve(board: string[][]): void {
     while (queue.length) {
       const [curRow, curCol] = queue.shift()!;
 
-      // read neighbors only after checking bounds to avoid out-of-range access
-      const east = curRow + 1 < rows ? board[curRow + 1][curCol] : undefined;
-      const west = curRow - 1 >= 0 ? board[curRow - 1][curCol] : undefined;
-      const north = curCol - 1 >= 0 ? board[curRow][curCol - 1] : undefined;
-      const south = curCol + 1 < cols ? board[curRow][curCol + 1] : undefined;
-
       // if this cell touches the border, the region cannot be flipped
       if (
         curRow === 0 ||
@@ -37,25 +38,14 @@ function solve(board: string[][]): void {
         touchesBorder = true;
       }
 
-      if (inBounds(curRow + 1, curCol) && east === "O") {
-        seen[curRow + 1][curCol] = true;
-        zeroCoords.push([curRow + 1, curCol]);
-        queue.push([curRow + 1, curCol]);
-      }
-      if (inBounds(curRow - 1, curCol) && west === "O") {
-        seen[curRow - 1][curCol] = true;
-        zeroCoords.push([curRow - 1, curCol]);
-        queue.push([curRow - 1, curCol]);
-      }
-      if (inBounds(curRow, curCol - 1) && north === "O") {
-        seen[curRow][curCol - 1] = true;
-        zeroCoords.push([curRow, curCol - 1]);
-        queue.push([curRow, curCol - 1]);
-      }
-      if (inBounds(curRow, curCol + 1) && south === "O") {
-        seen[curRow][curCol + 1] = true;
-        zeroCoords.push([curRow, curCol + 1]);
-        queue.push([curRow, curCol + 1]);
+      for (const dir of dirs) {
+        const nextRow = curRow + dir[0];
+        const nextCol = curCol + dir[1];
+        if (inBounds(nextRow, nextCol) && board[nextRow][nextCol] === "O") {
+          seen[nextRow][nextCol] = true;
+          zeroCoords.push([nextRow, nextCol]);
+          queue.push([nextRow, nextCol]);
+        }
       }
     }
     if (!touchesBorder) {
