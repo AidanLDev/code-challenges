@@ -26,5 +26,5 @@ function maxProduct(nums: number[]): number {
 const nums1 = [2, 3, -2, 4];
 const nums2 = [-2, 0, -1];
 
-const res1 = maxProduct(nums1);
+let res1 = maxProduct(nums1);
 // const res2 = maxProduct(nums2)
