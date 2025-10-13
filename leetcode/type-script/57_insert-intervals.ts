@@ -1,37 +1,32 @@
 function insert(intervals: number[][], newInterval: number[]): number[][] {
-  if (!intervals.length) return [newInterval];
-  if (!newInterval) return intervals;
+  if (!newInterval || !newInterval.length) return intervals;
+  if (!intervals || !intervals.length) return [newInterval];
+
+  const res: number[][] = [];
+  let i = 0;
+  const n = intervals.length;
   const [newStart, newEnd] = newInterval;
-  if (newEnd < intervals[0][0]) {
-    intervals.splice(0, 0, [newStart, newEnd]);
-    return intervals;
+
+  while (i < n && intervals[i][1] < newStart) {
+    res.push(intervals[i]);
+    i++;
   }
-  for (let i = 0; i < intervals.length; i++) {
-    const [start, end] = intervals[i];
-    if (
-      i >= 1 &&
-      newStart > intervals[i - 1][1] &&
-      newEnd < intervals[i + 1][0]
-    ) {
-      intervals.splice(i, 0, [newStart, newEnd]);
-      return intervals;
-    }
-    if (newStart <= end && newEnd >= start) {
-      let tempInterval = [Math.min(newStart, start), Math.max(end, newEnd)];
-      let j = i + 1;
-      while (j < intervals.length && intervals[j][0] <= tempInterval[1]) {
-        tempInterval = [
-          Math.min(tempInterval[0], intervals[j][0]),
-          Math.max(tempInterval[1], intervals[j][1]),
-        ];
-        intervals.splice(j, 1);
-      }
-      intervals[i] = tempInterval;
-      return intervals;
-    }
+
+  let mergedStart = newStart;
+  let mergedEnd = newEnd;
+  while (i < n && intervals[i][0] <= mergedEnd) {
+    mergedStart = Math.min(mergedStart, intervals[i][0]);
+    mergedEnd = Math.max(mergedEnd, intervals[i][1]);
+    i++;
   }
-  intervals.push(newInterval);
-  return intervals;
+  res.push([mergedStart, mergedEnd]);
+
+  while (i < n) {
+    res.push(intervals[i]);
+    i++;
+  }
+
+  return res;
 }
 
 let intervals1 = [
