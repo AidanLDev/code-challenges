@@ -4,9 +4,29 @@ interface Interval {
 }
 
 function minMeetingRooms(intervals: Interval[]): number {
-  let numDays = 0;
+  if (intervals.length === 0) return 0;
 
-  return numDays;
+  const starts = intervals.map((i) => i.start).sort((a, b) => a - b);
+  const ends = intervals.map((i) => i.end).sort((a, b) => a - b);
+
+  let s = 0
+  let e = 0;
+  let used = 0;
+  let maxUsed = 0;
+
+  while (s < starts.length) {
+    if (starts[s] < ends[e]) {
+      used++;
+      maxUsed = Math.max(maxUsed, used);
+      s++;
+    } else {
+      // a meeting ended, free a room
+      used--;
+      e++;
+    }
+  }
+
+  return maxUsed;
 }
 
 let minMeetingsTestData1 = [
