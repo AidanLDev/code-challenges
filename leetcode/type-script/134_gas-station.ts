@@ -18,18 +18,6 @@ function canCompleteCircuit(gas: number[], cost: number[]): number {
 
   return total >= 0 && start < n ? start : -1;
 }
-/*
-Start at the idx that will give us the most amount of gas after
-the first travel
-so loop through and take gas[i] - cost[i]
-Choose the first highest as our starting idx
-Loop through starting at that idx, and keep track of gas
-if gas becoems < 0 before we get back to our original idx
-return -1
-else return our startingIdx
-Input: gas = [1,2,3,4,5], cost = [3,4,5,1,2]
-Output: 3
-*/
 
 let canCompleteGas1 = [1, 2, 3, 4, 5];
 let canCompleteCost1 = [3, 4, 5, 1, 2];
