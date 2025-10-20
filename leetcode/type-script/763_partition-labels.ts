@@ -6,12 +6,34 @@
     - if not, increase range and keep going through the chars until we find a valid window
     - Repeat until we've found the range up to s.length
 */
-function partitionLabels(s: string): number[] {}
+function partitionLabels(s: string): number[] {
+  const res: number[] = [];
+  let start = 0;
+  let end = 0;
+
+  while (start < s.length) {
+    end = s.lastIndexOf(s[start]);
+
+    for (let i = start; i <= end; i++) {
+      const lastIdx = s.lastIndexOf(s[i]);
+      end = Math.max(end, lastIdx);
+    }
+
+    res.push(end - start + 1);
+    start = end + 1;
+  }
+
+  return res;
+}
 
 let partitionLabelsS1 = "ababcbacadefegdehijhklij";
 let partitionLabelsExpectedRes1 = [9, 7, 8];
 let partitionLabelsS2 = "eccbbbbdec";
 let partitionLabelsExpectedRes2 = [10];
+let partitionLabelsRes1 = partitionLabels(partitionLabelsS1);
+let partitionLabelsRes2 = partitionLabels(partitionLabelsS2);
+console.log(`Expect ${partitionLabelsExpectedRes1} got ${partitionLabelsRes1}`);
+console.log(`Expect ${partitionLabelsExpectedRes2} got ${partitionLabelsRes2}`);
 
 /**
  * You are given a string s. We want to partition the string into as many parts as possible so that each letter appears in at most one part. For example, the string "ababcc" can be partitioned into ["abab", "cc"], but partitions such as ["aba", "bcc"] or ["ab", "ab", "cc"] are invalid.
@@ -19,6 +41,7 @@ let partitionLabelsExpectedRes2 = [10];
 Note that the partition is done so that after concatenating all the parts in order, the resultant string should be s.
 
 Return a list of integers representing the size of these parts.
+
 
  
 
