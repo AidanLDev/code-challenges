@@ -37,3 +37,37 @@ function spiralOrder(matrix: number[][]): number[] {
 
   return result;
 }
+
+function spiralOrder2(matrix: number[][]): number[] {
+  let result = [];
+  let rowBegin = 0;
+  let rowEnd = matrix.length - 1;
+  let colBegin = 0;
+  let colEnd = matrix[0].length - 1;
+  while (rowBegin <= rowEnd && colBegin <= colEnd) {
+    // right
+    for (let i = rowBegin; i <= rowEnd; i++) {
+      result.push(matrix[rowBegin][i]);
+    }
+    rowBegin++;
+
+    // down
+    for (let i = rowBegin; i <= rowEnd; i++) {
+      result.push(matrix[colEnd][i]);
+    }
+    colEnd--;
+
+    // left
+    for (let i = colEnd; i >= colBegin; i--) {
+      result.push(matrix[rowEnd][i]);
+    }
+    rowEnd--;
+
+    // up
+    for (let i = rowEnd; i >= rowBegin; i--) {
+      result.push(matrix[colBegin][i]);
+    }
+    colBegin++;
+  }
+  return result;
+}
