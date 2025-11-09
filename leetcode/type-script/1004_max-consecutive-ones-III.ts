@@ -18,4 +18,22 @@ Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
 
 
 */
-function longestOnes(nums: number[], k: number): number {}
+
+function longestOnes(nums: number[], k: number): number {
+  let winStart = 0;
+  let zeros = 0;
+  let longest = 0;
+
+  for (let winEnd = 0; winEnd < nums.length; winEnd++) {
+    if (nums[winEnd] === 0) zeros++;
+
+    while (zeros > k) {
+      if (nums[winStart] === 0) zeros--;
+      winStart++;
+    }
+
+    longest = Math.max(longest, winEnd - winStart + 1);
+  }
+
+  return longest;
+}
