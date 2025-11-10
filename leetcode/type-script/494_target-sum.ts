@@ -19,3 +19,5 @@ let exampleNums1 = [1, 1, 1, 1, 1];
 let exampleTarget1 = 3;
 let exampleRes1 = findTargetSumWays(exampleNums1, exampleTarget1);
 console.log(`Should be 5, got ${exampleRes1}`);
+
+export default {};
