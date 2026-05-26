@@ -1,62 +1,29 @@
+type OpeningBrackets = "(" | "[" | "{";
+type ClosingBrackets = ")" | "]" | "}";
+
+const BRACKET_MAP: Record<ClosingBrackets, OpeningBrackets> = {
+  ")": "(",
+  "]": "[",
+  "}": "{",
+};
+
+const openBracketTypes = new Set<OpeningBrackets>(["(", "[", "{"]);
+
 function isValid(s: string): boolean {
-  const openBraces = {
-    "{": "}",
-    "(": ")",
-    "[": "]",
-  };
+  const STRING_LENGTH = s.length;
+  const openBrackets: OpeningBrackets[] = [];
 
-  const closingBraces = {
-    "}": "{",
-    ")": "(",
-    "]": "[",
-  };
-
-  let stack: string[] = [];
-  let isValid: boolean;
-
-  for (let i = 0; i < s.length; i++) {
-    if (openBraces.hasOwnProperty(s[i])) {
-      // It's an opening braces
-      stack.push(s[i]);
+  for (let i = 0; i < STRING_LENGTH; i++) {
+    const curBracket = s[i] as OpeningBrackets | ClosingBrackets;
+    if (openBracketTypes.has(curBracket as OpeningBrackets)) {
+      openBrackets.push(curBracket as OpeningBrackets);
     } else {
-      // It's a closing brace
-      if (stack.length > 0) {
-        let braceToCheck = stack[stack.length - 1];
-        isValid = braceToCheck === closingBraces[s[i]];
-        if (!isValid) {
-          return false;
-        }
-        stack.pop();
-      } else {
+      if (!openBrackets || openBrackets?.length <= 0) return false;
+      const openBracket = openBrackets.pop();
+      if (openBracket !== BRACKET_MAP[curBracket as ClosingBrackets])
         return false;
-      }
     }
   }
-  return stack.length === 0;
-}
 
-export function isValid2025(s: string): boolean {
-  const parenStack: string[] = [];
-  const openBrackets = ["(", "{", "["];
-  const bracketRefTable = {
-    "}": "{",
-    ")": "(",
-    "]": "[",
-  };
-  for (const char of s) {
-    if (openBrackets.includes(char)) {
-      parenStack.push(char);
-    } else {
-      // Must be a closing bracket
-      if (parenStack.length === 0) {
-        return false;
-      }
-      const topOfStack = parenStack.pop();
-      if (topOfStack !== bracketRefTable[char]) {
-        return false;
-      }
-    }
-  }
-  return parenStack.length === 0;
+  return openBrackets.length === 0;
 }
-
