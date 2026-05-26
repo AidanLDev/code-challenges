@@ -41,3 +41,32 @@ function climbStairs(n: number): number {
   which is the correct answer. This is because there are 3 ways to climb 3 steps:
   [1 step + 1 step + 1 step], [1 step + 2 steps], and [2 steps + 1 step].
 */
+
+function climbStairsTwo(n: number): number {
+  const mem = new Map<number, number>();
+  function climb(curStair: number): number {
+    if (mem.has(curStair)) return mem.get(curStair)!;
+    if (curStair > n) return 0;
+    if (curStair === n) return 1;
+    mem.set(curStair, climb(curStair + 1) + climb(curStair + 2));
+    return mem.get(curStair)!;
+  }
+  return climb(0);
+}
+
+function climbStairsThree(n: number): number {
+  if (n <= 1) return 1;
+  if (n === 2) return 2;
+  let cur: number = 0;
+  let first: number = 1;
+  let second: number = 2;
+  for (let i = 2; i < n; i++) {
+    cur = first + second;
+    first = second;
+    second = cur;
+  }
+  return cur;
+}
+
+console.log("4", climbStairsTwo(44));
+// 1134903170
